@@ -1,16 +1,59 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}Conduit{% endblock %}</title>
+    <!-- Import Ionicon icons & Google Fonts our Bootstrap theme relies on -->
+    <link
+        href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
+        rel="stylesheet"
+        type="text/css"
+    />
+    <link
+        href="//fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic"
+        rel="stylesheet"
+        type="text/css"
+    />
+    <!-- Import the custom Bootstrap 4 theme from our hosted CDN -->
+    <link rel="stylesheet" href="//demo.productionready.io/main.css"/>
+    {% block stylesheets %}
+    {% endblock %}
+    {% block javascripts %}
+    {% endblock %}
+</head>
+<body>
+    {% block body %}
+        <nav class="navbar navbar-light">
+            <div class="container">
+                <a class="navbar-brand" href="/">conduit</a>
+                <ul class="nav navbar-nav pull-xs-right">
+                    <li class="nav-item">
+                        <!-- Add "active" class when you're on that page" -->
+                        <a class="nav-link active" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Sign in</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">Sign up</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-        {% block javascripts %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+        {% block main_content %} {% endblock main_content %}
+
+        <footer>
+            {% block footer %}
+                <div class="container">
+                    <a href="/" class="logo-font">conduit</a>
+                    <span class="attribution">
+                  An interactive learning project from <a href="https://thinkster.io">Thinkster</a>. Code &amp;
+                  design licensed under MIT.
+                </span>
+                </div>
+            {% endblock footer %}
+        </footer>
+    {% endblock %}
+</body>
 </html>

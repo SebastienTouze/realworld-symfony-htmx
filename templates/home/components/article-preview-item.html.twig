@@ -1,9 +1,9 @@
 <div class="article-preview">
     <div class="article-meta">
-        <a href="/profile/eric-simons"><img src="http://i.imgur.com/Qr71crq.jpg"/></a>
+        <a href="/profile/{{ article.author.username }}"><img src="{{ article.author.image }}"/></a>
         <div class="info">
-            <a href="/profile/eric-simons" class="author">Eric Simons</a>
-            <span class="date">January 20th</span>
+            <a href="/profile/{{ article.author.username }}" class="author">{{ article.author.username }}</a>
+            <span class="date">{{ article.createdAt | date("F, d") }}</span>
         </div>
         <button class="btn btn-outline-primary btn-sm pull-xs-right">
             <i class="ion-heart"></i> 29

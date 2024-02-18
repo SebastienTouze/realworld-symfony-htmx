@@ -1,12 +1,12 @@
 <div class="article-preview">
     <div class="article-meta">
-        <a href="/profile/{{ article.author.username }}"><img src="{{ article.author.image }}"/></a>
+        <a href="{{ path('app_profile', {'username': article.author.username}) }}"><img src="{{ article.author.image }}"/></a>
         <div class="info">
-            <a href="/profile/{{ article.author.username }}" class="author">{{ article.author.username }}</a>
+            <a href="{{ path('app_profile', {'username': article.author.username}) }}" class="author">{{ article.author.username }}</a>
             <span class="date">{{ article.createdAt | date("F, d") }}</span>
         </div>
         <button class="btn btn-outline-primary btn-sm pull-xs-right">
-            <i class="ion-heart"></i> 29
+            <i class="ion-heart"></i> {{ article.favoritedCount }}
         </button>
     </div>
     <a href="/article/{{ article.slug }}" class="preview-link">

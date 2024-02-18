@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Article;
-use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,7 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ProfileController extends AbstractController
 {
-    public function __construct(private UserRepository $userRepository) {}
+    public function __construct(private readonly UserRepository $userRepository) {}
 
     #[Route('/profile/{username}', name: 'app_profile')]
     public function index(string $username): Response

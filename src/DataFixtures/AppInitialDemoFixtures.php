@@ -37,7 +37,7 @@ class AppInitialDemoFixtures extends Fixture
             ->setImage("http://i.imgur.com/Qr71crq.jpg")
             ->setUsername("eric-simons")
             ->setEmail("some@mail.com")
-            ->setPassword("1234")
+            ->setPassword('$2y$13$T9nNU0B3xDmUR5BqCPkZfeZHNJ69WYp/oXU4UYb2gPBi7HCH6ley.') //1234
             ->addArticle($article1)
             ->addArticle($article2)
         ;

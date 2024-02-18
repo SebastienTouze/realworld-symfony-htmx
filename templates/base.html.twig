@@ -31,12 +31,27 @@
                         <!-- Add "active" class when you're on that page" -->
                         <a class="nav-link active" href="/">Home</a>
                     </li>
+                    {% if not app.user %}
                     <li class="nav-item">
                         <a class="nav-link" href="/login">Sign in</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/register">Sign up</a>
+                        <a class="nav-link" href="{{ path('app_register') }}">Sign up</a>
                     </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/editor"> <i class="ion-compose"></i>&nbsp;New Article </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/settings"> <i class="ion-gear-a"></i>&nbsp;Settings </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile/eric-simons">
+                            <img src="{{ app.user.image }}" class="user-pic" />
+                            {{ app.user.username }}
+                        </a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>

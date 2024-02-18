@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sign up -- {{ parent() }}{% endblock %}
+
+{% block main_content %}
+    <div class="auth-page">
+        <div class="container page">
+            <div class="row">
+                <div class="col-md-6 offset-md-3 col-xs-12">
+                    <h1 class="text-xs-center">Sign up</h1>
+                    <p class="text-xs-center">
+                        <a href="{{ path('app_login') }}">Have an account?</a>
+                    </p>
+
+                    {% for flash_error in app.flashes('verify_email_error') %}
+                        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                    {% endfor %}
+
+                    {{ form_start(registrationForm) }}
+                    {{ form_errors(registrationForm) }}
+
+                    <fieldset class="form-group">
+                        {{ form_widget(registrationForm.username,
+                            { 'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Username'} }) }}
+                    </fieldset>
+                    <fieldset class="form-group">
+                        {{ form_widget(registrationForm.email,
+                            { 'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Email'} }) }}
+                    </fieldset>
+                    <fieldset class="form-group">
+                        {{ form_widget(registrationForm.plainPassword,
+                            { 'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Password'} }) }}
+                    </fieldset>
+                    <button class="btn btn-lg btn-primary pull-xs-right">Sign up</button>
+                    {{ form_end(registrationForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

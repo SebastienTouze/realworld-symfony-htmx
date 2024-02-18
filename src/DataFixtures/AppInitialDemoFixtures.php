@@ -13,7 +13,11 @@ class AppInitialDemoFixtures extends Fixture
     {
         $article1 = (new Article())
             ->setTitle("How to build webapps that scale")
-            ->setBody("No body (lol)")
+            ->setBody("<p>
+          Web development technologies have evolved at an incredible clip over the past few years.
+        </p>
+        <h2>Introducing RealWorld.</h2>
+        <p>It's a great solution for learning how other frameworks work.</p>")
             ->setSlug("how-to-build-webapps-that-scale")
             ->setDescription("This is the description for the post.")
             ->setCreatedAt(new \DateTimeImmutable("2024-01-20"))
@@ -21,7 +25,7 @@ class AppInitialDemoFixtures extends Fixture
         ;
         $article2 = (new Article())
             ->setTitle("The song you won't ever stop singing. No matter how hard you try.")
-            ->setBody("No body (lol)")
+            ->setBody("Sing sing !")
             ->setSlug("the-song-you")
             ->setDescription("This is the description for the post.")
             ->setCreatedAt(new \DateTimeImmutable("2023-12-20"))
@@ -33,7 +37,7 @@ class AppInitialDemoFixtures extends Fixture
             ->setImage("http://i.imgur.com/Qr71crq.jpg")
             ->setUsername("eric-simons")
             ->setEmail("some@mail.com")
-            ->setToken("1234")
+            ->setPassword("1234")
             ->addArticle($article1)
             ->addArticle($article2)
         ;

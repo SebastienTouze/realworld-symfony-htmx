@@ -22,6 +22,11 @@ class Favorite
     #[ORM\JoinColumn(nullable: false)]
     private ?User $reader = null;
 
+    public function __construct(User $reader, Article $article) {
+        $this->reader = $reader;
+        $this->article = $article;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

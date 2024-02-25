@@ -42,7 +42,16 @@ class AppInitialDemoFixtures extends Fixture
             ->addArticle($article2)
         ;
 
+        $userVisitor = (new User())
+            ->setBio("")
+            ->setImage("")
+            ->setUsername("nemo")
+            ->setEmail("nemo@email.com")
+            ->setPassword('$2y$13$drQ.NoVIhLEYI0RzT6yQWeDWORjBrpwbWXBiCci87ZMQABpSgPVai') //123456
+        ;
+
         $manager->persist($user);
+        $manager->persist($userVisitor);
         $manager->persist($article1);
         $manager->persist($article2);
 

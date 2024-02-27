@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ArticleController!{% endblock %}
+{% block title %}{{ article.title }} -- {{ parent() }}{% endblock %}
 
 {% block main_content %}
     <div class="article-page">
@@ -9,20 +9,17 @@
                 <h1>{{ article.title }}</h1>
 
                 <div class="article-meta">
-                    <a href="/profile/{{ article.author.username }}"><img src="{{ article.author.image }}" /></a>
+                    <a href="{{ path('app_profile', {'username': article.author.username }) }}"><img src="{{ article.author.image }}" /></a>
                     <div class="info">
-                        <a href="/profile/{{ article.author.username }}" class="author">{{ article.author.username }}</a>
-                        <span class="date">January 20th</span>
+                        <a href="{{ path('app_profile', {'username': article.author.username }) }}" class="author">{{ article.author.username }}</a>
+                        <span class="date">January 20th</span> {#  TODO #}
                     </div>
                     <button class="btn btn-sm btn-outline-secondary">
                         <i class="ion-plus-round"></i>
-                        &nbsp; Follow {{ article.author.username }} <span class="counter">(10)</span>
+                        &nbsp; Follow {{ article.author.username }} <span class="counter">(10)</span> {# TODO #}
                     </button>
                     &nbsp;&nbsp;
-                    <button class="btn btn-sm btn-outline-primary">
-                        <i class="ion-heart"></i>
-                        &nbsp; Favorite Post <span class="counter">(29)</span>
-                    </button>
+                    {% include 'article/components/favorite-button-large.html.twig' with {'article': article} %}
                     <button class="btn btn-sm btn-outline-secondary">
                         <i class="ion-edit"></i> Edit Article
                     </button>
@@ -61,10 +58,7 @@
                         &nbsp; Follow {{ article.author.username }}
                     </button>
                     &nbsp;
-                    <button class="btn btn-sm btn-outline-primary">
-                        <i class="ion-heart"></i>
-                        &nbsp; Favorite Article <span class="counter">(29)</span>
-                    </button>
+                    {% include 'article/components/favorite-button-large.html.twig' with {'article': article} %}
                     <button class="btn btn-sm btn-outline-secondary">
                         <i class="ion-edit"></i> Edit Article
                     </button>

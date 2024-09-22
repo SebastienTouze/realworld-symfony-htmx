@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('htmx/articles')]
-class ArticleHtmxController extends AbstractController
+class ArticleFavoriteButtonController extends AbstractController
 {
 
     /**

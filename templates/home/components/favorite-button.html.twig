@@ -1,5 +1,5 @@
 <button class="btn btn-outline-primary btn-sm pull-xs-right"
-        hx-post="{{ path('app_htmx_articlehtmx_addfavoritearticle', {'slug': article.slug}) }}"
+        hx-post="{{ path('app_htmx_articlefavoritebutton_addfavoritearticle', {'slug': article.slug}) }}"
         hx-swap="outerHTML">
     <i class="ion-heart"></i> {{ article.favoritedCount }}
 </button>

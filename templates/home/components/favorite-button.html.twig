@@ -1,5 +1,6 @@
-<button class="btn btn-outline-primary btn-sm pull-xs-right"
-        hx-post="{{ path('app_htmx_articlefavoritebutton_addfavoritearticle', {'slug': article.slug}) }}"
+<button class="btn btn-sm btn-outline-primary"
+        hx-post="{{ path('app_htmx_articlefavoritebutton_addfavoritearticle', {'slug': article.slug, 'format': 'large'}) }}"
         hx-swap="outerHTML">
-    <i class="ion-heart"></i> {{ article.favoritedCount }}
+    <i class="ion-heart"></i>
+    &nbsp; {% if format == 'large' %}Favorite Post {% endif %}<span class="counter">({{ article.favoritedCount }})</span>
 </button>

@@ -5,7 +5,7 @@
             <a href="{{ path('app_profile', {'username': article.author.username}) }}" class="author">{{ article.author.username }}</a>
             <span class="date">{{ article.createdAt | date("F, d") }}</span>
         </div>
-        {% include 'home/components/favorite-button.html.twig' with {'article': article} %}
+        {% include 'home/components/favorite-button.html.twig' with {'article': article, 'format': 'large'} %}
     </div>
     <a href="/article/{{ article.slug }}" class="preview-link">
         <h1>{{ article.title }}</h1>

@@ -26,7 +26,7 @@ class ArticleFavoriteButtonController extends AbstractController
     const array ButtonSize = [
         'Default' => 'small',
         'Small' => 'small',
-        'Big' => 'big'];
+        'Large' => 'large'];
 
     public function __construct(private ArticleRepository      $articleRepository,
                                 private FavoriteRepository     $favoriteRepository,
@@ -40,7 +40,7 @@ class ArticleFavoriteButtonController extends AbstractController
         //TODO don't do that it change the button for a login form
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        $renderWithSize = $request->query->get('format');
+        $renderWithSize = $request->query->get('format') ?? self::ButtonSize['Default'];
 
         $article = $this->articleRepository->findOneBy(['slug' => $slug]);
         //TODO test if article is already favorite and post a message, currently user can favorite unlimited articles
@@ -50,12 +50,10 @@ class ArticleFavoriteButtonController extends AbstractController
         $this->entityManager->persist($favorite);
         $this->entityManager->flush();
 
-        if (self::ButtonSize['Big'] === $renderWithSize) {
-            return $this->render('article/components/favorite-button-large.html.twig', ['article' => $article]);
-        }
-
         //default is small buttonq
-        return $this->render('home/components/favorite-button.html.twig', ['article' => $article]);
+        return $this->render('home/components/favorite-button.html.twig', [
+            'article' => $article,
+            'format' => $renderWithSize]);
     }
 
     #[Route('/{slug}/favorite', methods: ['DELETE'])]
@@ -72,6 +70,6 @@ class ArticleFavoriteButtonController extends AbstractController
             $this->entityManager->flush();
         }
 
-        return $this->render('home/components/favorite-button.html.twig', ['article' => $article]);
+        return $this->render('home/components/favorite-button.html.twig', ['article' => $article, 'format' => 'large']);
     }
 }

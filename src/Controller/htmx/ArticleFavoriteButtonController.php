@@ -51,7 +51,7 @@ class ArticleFavoriteButtonController extends AbstractController
         $this->entityManager->flush();
 
         //default is small buttonq
-        return $this->render('home/components/favorite-button.html.twig', [
+        return $this->render('components/favorite-button.html.twig', [
             'article' => $article,
             'format' => $renderWithSize]);
     }
@@ -70,6 +70,6 @@ class ArticleFavoriteButtonController extends AbstractController
             $this->entityManager->flush();
         }
 
-        return $this->render('home/components/favorite-button.html.twig', ['article' => $article, 'format' => 'large']);
+        return $this->render('components/favorite-button.html.twig', ['article' => $article, 'format' => 'large']);
     }
 }

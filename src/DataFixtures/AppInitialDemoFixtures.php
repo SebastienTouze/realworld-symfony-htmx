@@ -31,6 +31,14 @@ class AppInitialDemoFixtures extends Fixture
             ->setCreatedAt(new \DateTimeImmutable("2023-12-20"))
             //no tags for now
         ;
+        $article3 = (new Article())
+            ->setTitle("Top 3 advises for writing articles, 3rd will blow your mind!")
+            ->setBody("1) don\'t loose time reading article, write them!")
+            ->setSlug("top-3-advises-write-articles")
+            ->setDescription("Incredible article!")
+            ->setCreatedAt(new \DateTimeImmutable("2024-09-26"))
+            //no tags for now
+        ;
 
         $user = (new User())
             ->setBio("Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda looks like Peeta from the Hunger Games")
@@ -40,6 +48,7 @@ class AppInitialDemoFixtures extends Fixture
             ->setPassword('$2y$13$T9nNU0B3xDmUR5BqCPkZfeZHNJ69WYp/oXU4UYb2gPBi7HCH6ley.') //1234
             ->addArticle($article1)
             ->addArticle($article2)
+            ->addArticle($article3)
         ;
 
         $userVisitor = (new User())
@@ -54,6 +63,7 @@ class AppInitialDemoFixtures extends Fixture
         $manager->persist($userVisitor);
         $manager->persist($article1);
         $manager->persist($article2);
+        $manager->persist($article3);
 
         $manager->flush();
     }

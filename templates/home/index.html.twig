@@ -23,17 +23,27 @@
                         </ul>
                     </div>
 
-                    {% for article in articles %}
+                    {% for article in paginatedArticles %}
                         {% include 'home/components/article-preview-item.html.twig' with {'article': article} %}
                     {% endfor %}
 
+
+                    Page {{ currentPage }} of {{ lastPage }}
+
+
                     <ul class="pagination">
-                        <li class="page-item active">
-                            <a class="page-link" href="">1</a>
+                        {% for page in  1..lastPage %}
+                        <li class="page-item {% if page == currentPage %} active {% endif %}">
+                            <a class="page-link" href="?page={{ page }}"
+                               hx-get="{{ path('app_home', {'page': page}) }}"
+                               hx-target="body"
+                               hx-swap="outerHTML"
+                               hx-replace-url="true"
+                            >
+                                {{ page }}
+                            </a>
                         </li>
-                        <li class="page-item">
-                            <a class="page-link" href="">2</a>
-                        </li>
+                        {% endfor %}
                     </ul>
                 </div>
 

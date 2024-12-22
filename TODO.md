@@ -1,0 +1,11 @@
+- page accueil
+  - liste des tags (click = affiche le  flux custom)
+  - redirection correcte au click sur un bouton de fav
+  - sign up
+- page article
+    - bouton follow
+    - commentaires CR-D
+- page auteur (/profile<name>)
+  - articles fav (/profile<name>/favorites)
+- Settings page
+- retirer API Pf

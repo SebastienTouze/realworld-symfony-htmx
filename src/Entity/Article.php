@@ -43,9 +43,16 @@ class Article {
     #[ORM\OneToMany(targetEntity: Favorite::class, mappedBy: 'article', fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     private Collection $favorites;
 
+    /**
+     * @var Collection<int, Tag>
+     */
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'articles')]
+    private Collection $tags;
+
     public function __construct()
     {
         $this->favorites = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): ?int {
@@ -124,5 +131,29 @@ class Article {
 
     public function getFavoritedCount(): int {
         return $this->favorites->count();
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): static
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): static
+    {
+        $this->tags->removeElement($tag);
+
+        return $this;
     }
 }

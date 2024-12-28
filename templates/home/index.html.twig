@@ -18,10 +18,17 @@
                                 <a class="nav-link" href="">Your Feed</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="">Global Feed</a>
+                                <a class="nav-link {{ activeFeed and activeFeed == 'global' ? 'active' : '' }}" href="/">Global Feed</a>
                             </li>
+                            {% block customfeed %}
+                            {% endblock %}
                         </ul>
                     </div>
+
+                    {%  if paginatedArticles.count < 1 %}
+                        <div style="margin: 15px">😱Ho no! No articles here!<br/>
+                            So sad... quick! 🔥Go create one!!</div>
+                    {% endif %}
 
                     {% for article in paginatedArticles %}
                         {% include 'home/components/article-preview-item.html.twig' with {'article': article} %}

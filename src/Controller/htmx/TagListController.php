@@ -2,6 +2,8 @@
 
 namespace App\Controller\htmx;
 
+use App\Entity\Tag;
+use App\Repository\ArticleRepository;
 use App\Repository\TagRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +15,7 @@ class TagListController extends AbstractController
     public function __construct(
         private readonly TagRepository $tagRepository) { }
 
-    #[Route('/', name: 'app_tag_list')]
+    #[Route('/', name: 'app_tag_list', methods: ['GET'])]
     public function list(): Response
     {
         $tags = $this->tagRepository->findAll();

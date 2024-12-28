@@ -1,5 +1,5 @@
 <div class="tag-list">
     {% for tag in tags %}
-        <a href="" class="tag-pill tag-default">{{ tag.label }}</a>
+        <a href="{{ path('app_home_tag_feed', {label: tag.label}) }}" class="tag-pill tag-default">{{ tag.label }}</a>
     {% endfor %}
 </div>

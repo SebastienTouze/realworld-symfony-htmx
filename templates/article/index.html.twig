@@ -37,8 +37,9 @@
                         {{ article.body }}
                     </div>
                     <ul class="tag-list">
-                        <li class="tag-default tag-pill tag-outline">realworld</li>
-                        <li class="tag-default tag-pill tag-outline">implementations</li>
+                        {% for tag in article.tags %}
+                            <li class="tag-default tag-pill tag-outline">{{ tag.label }}</li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>

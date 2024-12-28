@@ -28,6 +28,9 @@ class TagFixture extends Fixture
          $manager->persist($tag6);
          $manager->persist($tag7);
 
+         $this->addReference('tag0', $tag0);
+         $this->addReference('tag1', $tag1);
+
         $manager->flush();
     }
 }

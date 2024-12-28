@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Article;
+use App\Entity\Tag;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -22,7 +23,8 @@ class AppInitialDemoFixtures extends Fixture implements DependentFixtureInterfac
             ->setSlug("how-to-build-webapps-that-scale")
             ->setDescription("This is the description for the post.")
             ->setCreatedAt(new \DateTimeImmutable("2024-01-20"))
-            //no tags for now
+            ->addTag($this->getReference("tag0", Tag::class))
+            ->addTag($this->getReference("tag1", Tag::class))
         ;
         $article2 = (new Article())
             ->setTitle("The song you won't ever stop singing. No matter how hard you try.")
@@ -30,7 +32,7 @@ class AppInitialDemoFixtures extends Fixture implements DependentFixtureInterfac
             ->setSlug("the-song-you")
             ->setDescription("This is the description for the post.")
             ->setCreatedAt(new \DateTimeImmutable("2023-12-20"))
-            //no tags for now
+            ->addTag($this->getReference("tag0", Tag::class))
         ;
         $article3 = (new Article())
             ->setTitle("Top 3 advises for writing articles, 3rd will blow your mind!")
@@ -38,7 +40,7 @@ class AppInitialDemoFixtures extends Fixture implements DependentFixtureInterfac
             ->setSlug("top-3-advises-write-articles")
             ->setDescription("Incredible article!")
             ->setCreatedAt(new \DateTimeImmutable("2024-09-26"))
-            //no tags for now
+            ->addTag($this->getReference("tag1", Tag::class))
         ;
 
         $user = (new User())

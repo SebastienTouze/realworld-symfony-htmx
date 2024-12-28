@@ -10,20 +10,22 @@ use Doctrine\ORM\Mapping as ORM;
 #[ApiResource]
 class Tag
 {
+    public function __construct(
+        #[ORM\Column(length: 255)]
+        private string $label
+    ) { }
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $label = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->label;
     }

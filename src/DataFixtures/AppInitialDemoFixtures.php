@@ -5,9 +5,10 @@ namespace App\DataFixtures;
 use App\Entity\Article;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class AppInitialDemoFixtures extends Fixture
+class AppInitialDemoFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -66,5 +67,9 @@ class AppInitialDemoFixtures extends Fixture
         $manager->persist($article3);
 
         $manager->flush();
+    }
+
+    public function getDependencies(): array {
+        return [TagFixture::class];
     }
 }

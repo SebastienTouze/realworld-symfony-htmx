@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use App\Repository\FavoriteRepository;
 use Doctrine\ORM\Mapping as ORM;
 

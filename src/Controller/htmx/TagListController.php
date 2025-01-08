@@ -2,8 +2,6 @@
 
 namespace App\Controller\htmx;
 
-use App\Entity\Tag;
-use App\Repository\ArticleRepository;
 use App\Repository\TagRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;

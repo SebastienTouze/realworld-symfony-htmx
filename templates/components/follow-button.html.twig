@@ -2,5 +2,5 @@
         hx-post="{{ path('app_htmx_followbutton_followuser', {'username': author.username}) }}"
         hx-swap="outerHTML">
     <i class="ion-plus-round"></i>
-    &nbsp; Follow {{ author.username }} ({{ '10' }})
+    &nbsp; Follow {{ author.username }} ({{ author.followers.count }})
 </button>

@@ -49,10 +49,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
     #[ORM\OneToMany(targetEntity: Favorite::class, mappedBy: 'reader', orphanRemoval: true)]
     private Collection $favorites;
 
+    /**
+     * @var Collection<int, Follow>
+     */
+    #[ORM\OneToMany(targetEntity: Follow::class, mappedBy: 'follower', orphanRemoval: true)]
+    private Collection $follows;
+
+    /**
+     * @var Collection<int, Follow>
+     */
+    #[ORM\OneToMany(targetEntity: Follow::class, mappedBy: 'followed', orphanRemoval: true)]
+    private Collection $followers;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
         $this->favorites = new ArrayCollection();
+        $this->follows = new ArrayCollection();
+        $this->followers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -209,6 +223,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
             // set the owning side to null (unless already changed)
             if ($favorite->getReader() === $this) {
                 $favorite->setReader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Follow>
+     */
+    public function getFollows(): Collection
+    {
+        return $this->follows;
+    }
+
+    public function addFollow(Follow $follow): static
+    {
+        if (!$this->follows->contains($follow)) {
+            $this->follows->add($follow);
+            $follow->setFollower($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollow(Follow $follow): static
+    {
+        if ($this->follows->removeElement($follow)) {
+            // set the owning side to null (unless already changed)
+            if ($follow->getFollower() === $this) {
+                $follow->setFollower(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Follow>
+     */
+    public function getFollowers(): Collection
+    {
+        return $this->followers;
+    }
+
+    public function addFollower(Follow $follower): static
+    {
+        if (!$this->followers->contains($follower)) {
+            $this->followers->add($follower);
+            $follower->setFollowed($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollower(Follow $follower): static
+    {
+        if ($this->followers->removeElement($follower)) {
+            // set the owning side to null (unless already changed)
+            if ($follower->getFollowed() === $this) {
+                $follower->setFollowed(null);
             }
         }
 

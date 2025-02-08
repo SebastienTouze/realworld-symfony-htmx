@@ -37,7 +37,6 @@ class ArticleFavoriteButtonController extends AbstractController
     #[Route('/{slug}/favorite', methods: ['POST'])]
     public function addFavoriteArticle(string $slug, Request $request): Response
     {
-        //TODO don't do that it change the button for a login form
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $renderWithSize = $request->query->get('format') ?? self::ButtonSize['Default'];

@@ -14,10 +14,7 @@
                         <a href="{{ path('app_profile', {'username': article.author.username }) }}" class="author">{{ article.author.username }}</a>
                         <span class="date">January 20th</span> {#  TODO #}
                     </div>
-                    <button class="btn btn-sm btn-outline-secondary">
-                        <i class="ion-plus-round"></i>
-                        &nbsp; Follow {{ article.author.username }} <span class="counter">(10)</span> {# TODO #}
-                    </button>
+                    {% include 'components/follow-button.html.twig' with {'author': article.author} %}&nbsp;
                     &nbsp;&nbsp;
                     {% include 'components/favorite-button.html.twig' with {'article': article, 'format': 'large'} %}
                     <button class="btn btn-sm btn-outline-secondary">
@@ -54,10 +51,7 @@
                         <span class="date">January 20th</span>
                     </div>
 
-                    <button class="btn btn-sm btn-outline-secondary">
-                        <i class="ion-plus-round"></i>
-                        &nbsp; Follow {{ article.author.username }}
-                    </button>
+                    {% include 'components/follow-button.html.twig' with {'author': article.author} %}&nbsp;
                     {% include 'components/favorite-button.html.twig' with {'article': article, 'format': 'large'} %}&nbsp;
                     <button class="btn btn-sm btn-outline-secondary">
                         <i class="ion-edit"></i> Edit Article

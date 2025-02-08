@@ -10,6 +10,7 @@ namespace App\Controller\htmx;
 use App\Entity\Favorite;
 use App\Repository\ArticleRepository;
 use App\Repository\FavoriteRepository;
+use App\Service\FavoriteService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +31,8 @@ class ArticleFavoriteButtonController extends AbstractController
 
     public function __construct(private ArticleRepository      $articleRepository,
                                 private FavoriteRepository     $favoriteRepository,
-                                private EntityManagerInterface $entityManager)
+                                private EntityManagerInterface $entityManager,
+                                private FavoriteService $favoriteService)
     {
     }
 
@@ -42,19 +44,16 @@ class ArticleFavoriteButtonController extends AbstractController
         $renderWithSize = $request->query->get('format') ?? self::ButtonSize['Default'];
 
         $article = $this->articleRepository->findOneBy(['slug' => $slug]);
-        //TODO test if article is already favorite and post a message, currently user can favorite unlimited articles
         //TODO success message
-        $favorite = new Favorite($this->getUser(), $article);
+        $this->favoriteService->addArticleToUserFavorites($article, $this->getUser());
 
-        $this->entityManager->persist($favorite);
-        $this->entityManager->flush();
-
-        //default is small buttonq
+        //default is small button
         return $this->render('components/favorite-button.html.twig', [
             'article' => $article,
             'format' => $renderWithSize]);
     }
 
+    //TODO remove if already favorite
     #[Route('/{slug}/favorite', methods: ['DELETE'])]
     public function removeFavoriteArticle(string $slug): Response
     {

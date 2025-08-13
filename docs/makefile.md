@@ -70,6 +70,9 @@ logs: ## Show live logs
 sh: ## Connect to the FrankenPHP container
 	@$(PHP_CONT) sh
 
+bash: ## Connect to the FrankenPHP container via bash so up and down arrows go to previous commands
+	@$(PHP_CONT) bash
+
 test: ## Start tests with phpunit, pass the parameter "c=" to add options to phpunit, example: make test c="--group e2e --stop-on-failure"
 	@$(eval c ?=)
 	@$(DOCKER_COMP) exec -e APP_ENV=test php bin/phpunit $(c)
@@ -92,3 +95,16 @@ sf: ## List all Symfony commands or pass the parameter "c=" to run a given comma
 cc: c=c:c ## Clear the cache
 cc: sf
 ```
+
+## Adding and modifying jobs
+
+Make sure to add this configuration to the [.editorconfig](/.editorconfig) file, so that it forces your editor to use tabs instead of spaces (Makefiles are not compatible with spaces by default).
+
+```.editorconfig
+
+[Makefile]
+indent_style = tab
+
+```
+
+If you still want to use space, you can configure the prefix in the Makefile itself. See [this answer on StackExchange](https://retrocomputing.stackexchange.com/a/20303).

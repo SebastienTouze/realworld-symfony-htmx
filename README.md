@@ -8,7 +8,10 @@ See the [RealWorld documentation for more details](https://realworld-docs.netlif
 
 ## Installation
 
-clone this repository, then :
+This repository is based on the [Symfony Docker template](https://github.com/dunglas/symfony-docker), 
+dedicated doc is available in [docs](docs/README_SYMFONY_DOCKER.md).
+
+Or you can simply clone this repository, then :
 
 ```shell
 cd realworld-symfony-htmx

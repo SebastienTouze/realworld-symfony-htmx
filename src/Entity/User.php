@@ -152,7 +152,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
         return $this;
     }
 
-    #[\Override] public function getRoles(): array {
+    #[\Override]
+    public function getRoles(): array
+    {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
@@ -163,27 +165,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
         return $this;
     }
 
-    #[\Override] public function eraseCredentials(): void {
+    #[\Override]
+    public function eraseCredentials(): void
+    {
         // TODO: Implement eraseCredentials() method.
     }
 
-    #[\Override] public function getUserIdentifier(): string {
+    #[\Override]
+    public function getUserIdentifier(): string
+    {
         return $this->username;
     }
 
-    public function getPassword(): string {
+    public function getPassword(): string
+    {
         return $this->password;
     }
 
-    public function setPassword(string $password): self {
+    public function setPassword(string $password): self
+    {
         $this->password = $password;
+
         return $this;
     }
 
-    #[\Override] public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void {
+    #[\Override]
+    public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
+    {
         // TODO: Implement upgradePassword() method.
     }
 

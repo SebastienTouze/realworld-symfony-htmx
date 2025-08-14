@@ -24,7 +24,8 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
-    public function findAllPaginated(int $currentPage, int $elementLimit): Paginator {
+    public function findAllPaginated(int $currentPage, int $elementLimit): Paginator
+    {
         $query = $this->createQueryBuilder('a')
             ->orderBy('a.createdAt', 'DESC')
             ->setFirstResult(($currentPage - 1) * $elementLimit)
@@ -33,7 +34,8 @@ class ArticleRepository extends ServiceEntityRepository
         return new Paginator($query, true);
     }
 
-    public function findByTagPaginated(Tag $tag, int $currentPage, int $elementLimit): Paginator {
+    public function findByTagPaginated(Tag $tag, int $currentPage, int $elementLimit): Paginator
+    {
         $query = $this->createQueryBuilder('a')
             ->orderBy('a.createdAt', 'DESC')
             ->join('a.tags', 't')
@@ -74,5 +76,4 @@ class ArticleRepository extends ServiceEntityRepository
 
         return new Paginator($query, true);
     }
-
 }

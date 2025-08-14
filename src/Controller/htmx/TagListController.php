@@ -11,7 +11,9 @@ use Symfony\Component\Routing\Attribute\Route;
 class TagListController extends AbstractController
 {
     public function __construct(
-        private readonly TagRepository $tagRepository) { }
+        private readonly TagRepository $tagRepository)
+    {
+    }
 
     #[Route('/', name: 'app_tag_list', methods: ['GET'])]
     public function list(): Response

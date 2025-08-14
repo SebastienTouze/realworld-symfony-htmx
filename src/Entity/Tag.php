@@ -8,7 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TagRepository::class)]
-class Tag {
+class Tag
+{
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -21,20 +22,23 @@ class Tag {
 
     public function __construct(
         #[ORM\Column(length: 255, unique: true)]
-        private string $label
+        private string $label,
     ) {
         $this->articles = new ArrayCollection();
     }
 
-    public function getId(): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
 
-    public function getLabel(): string {
+    public function getLabel(): string
+    {
         return $this->label;
     }
 
-    public function setLabel(string $label): static {
+    public function setLabel(string $label): static
+    {
         $this->label = $label;
 
         return $this;
@@ -43,12 +47,14 @@ class Tag {
     /**
      * @return Collection<int, Article>
      */
-    public function getArticles(): Collection {
+    public function getArticles(): Collection
+    {
         return $this->articles;
     }
 
-    public function addArticle(Article $article): static {
-        if(!$this->articles->contains($article)) {
+    public function addArticle(Article $article): static
+    {
+        if (!$this->articles->contains($article)) {
             $this->articles->add($article);
             $article->addTag($this);
         }
@@ -56,8 +62,9 @@ class Tag {
         return $this;
     }
 
-    public function removeArticle(Article $article): static {
-        if($this->articles->removeElement($article)) {
+    public function removeArticle(Article $article): static
+    {
+        if ($this->articles->removeElement($article)) {
             $article->removeTag($this);
         }
 

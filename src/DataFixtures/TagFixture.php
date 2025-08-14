@@ -19,17 +19,17 @@ class TagFixture extends Fixture
         $tag6 = new Tag('node');
         $tag7 = new Tag('rails');
 
-         $manager->persist($tag0);
-         $manager->persist($tag1);
-         $manager->persist($tag2);
-         $manager->persist($tag3);
-         $manager->persist($tag4);
-         $manager->persist($tag5);
-         $manager->persist($tag6);
-         $manager->persist($tag7);
+        $manager->persist($tag0);
+        $manager->persist($tag1);
+        $manager->persist($tag2);
+        $manager->persist($tag3);
+        $manager->persist($tag4);
+        $manager->persist($tag5);
+        $manager->persist($tag6);
+        $manager->persist($tag7);
 
-         $this->addReference('tag0', $tag0);
-         $this->addReference('tag1', $tag1);
+        $this->addReference('tag0', $tag0);
+        $this->addReference('tag1', $tag1);
 
         $manager->flush();
     }

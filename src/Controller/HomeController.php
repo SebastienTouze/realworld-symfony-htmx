@@ -15,13 +15,14 @@ class HomeController extends AbstractController
     public function __construct(
         private readonly ArticleRepository $articleRepository,
         #[Autowire(env: 'ELEMENT_PER_PAGE')]
-        private readonly int $elementPerPage
-    ) {}
+        private readonly int $elementPerPage,
+    ) {
+    }
 
     #[Route('/', name: 'app_home')]
     public function index(Request $request): Response
     {
-        $page = (int)($request->query->get('page', 1));
+        $page = (int) $request->query->get('page', 1);
         $page <= 1 && $page = 1;
 
         $paginatedArticles = $this->articleRepository->findAllPaginated($page, $this->elementPerPage);
@@ -37,7 +38,7 @@ class HomeController extends AbstractController
     #[Route('/tag-feed/{label:tag}', name: 'app_home_tag_feed')]
     public function tagFeed(Tag $tag, Request $request): Response
     {
-        $page = (int)($request->query->get('page', 1));
+        $page = (int) $request->query->get('page', 1);
         $page <= 1 && $page = 1;
 
         $paginatedArticles = $this->articleRepository->findByTagPaginated($tag, $page, $this->elementPerPage);

@@ -9,7 +9,9 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ArticleController extends AbstractController
 {
-    public function __construct(private readonly ArticleRepository $articleRepository) { }
+    public function __construct(private readonly ArticleRepository $articleRepository)
+    {
+    }
 
     #[Route('/article/{slug}', name: 'app_article')]
     public function index(string $slug): Response

@@ -16,15 +16,16 @@ class ProfileController extends AbstractController
         private readonly UserRepository $userRepository,
         private readonly ArticleRepository $articleRepository,
         #[Autowire(env: 'ELEMENT_PER_PAGE')]
-        private readonly int $elementPerPage
-    ) {}
+        private readonly int $elementPerPage,
+    ) {
+    }
 
     #[Route('/profile/{username}', name: 'app_profile')]
     public function index(string $username, Request $request): Response
     {
         $userWatched = $this->userRepository->findOneBy(['username' => $username]);
 
-        $page = (int)($request->query->get('page', 1));
+        $page = (int) $request->query->get('page', 1);
         $page <= 1 && $page = 1;
 
         $paginatedArticles = $this->articleRepository->findByUserPaginated($userWatched, $page, $this->elementPerPage);
@@ -43,7 +44,7 @@ class ProfileController extends AbstractController
     {
         $userWatched = $this->userRepository->findOneBy(['username' => $username]);
 
-        $page = (int)($request->query->get('page', 1));
+        $page = (int) $request->query->get('page', 1);
         $page <= 1 && $page = 1;
 
         $paginatedArticles = $this->articleRepository->findByUserFavoritedPaginated($userWatched, $page, $this->elementPerPage);

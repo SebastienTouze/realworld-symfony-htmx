@@ -34,24 +34,7 @@
                         {% include 'home/components/article-preview-item.html.twig' with {'article': article} %}
                     {% endfor %}
 
-
-                    Page {{ currentPage }} of {{ lastPage }}
-
-
-                    <ul class="pagination">
-                        {% for page in  1..lastPage %}
-                        <li class="page-item {% if page == currentPage %} active {% endif %}">
-                            <a class="page-link" href="?page={{ page }}"
-                               hx-get="{{ path('app_home', {'page': page}) }}"
-                               hx-target="body"
-                               hx-swap="outerHTML"
-                               hx-replace-url="true"
-                            >
-                                {{ page }}
-                            </a>
-                        </li>
-                        {% endfor %}
-                    </ul>
+                    {% include 'components/pagination.html.twig' with {currentPage: currentPage, lastPage: lastPage, targetLink: 'app_home'} %}
                 </div>
 
                 <div class="col-md-3">

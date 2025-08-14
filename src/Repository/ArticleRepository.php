@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Article;
 use App\Entity\Tag;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
@@ -40,6 +41,35 @@ class ArticleRepository extends ServiceEntityRepository
             ->setFirstResult(($currentPage - 1) * $elementLimit)
             ->setMaxResults($elementLimit)
             ->setParameter('tag', $tag)
+        ;
+
+        return new Paginator($query, true);
+    }
+
+    public function findByUserPaginated(User $user, int $currentPage, int $elementLimit): Paginator
+    {
+        $query = $this->createQueryBuilder('a')
+            ->orderBy('a.createdAt', 'DESC')
+            ->join('a.author', 'u')
+            ->andWhere('u = :user')
+            ->setFirstResult(($currentPage - 1) * $elementLimit)
+            ->setMaxResults($elementLimit)
+            ->setParameter('user', $user)
+        ;
+
+        return new Paginator($query, true);
+    }
+
+    public function findByUserFavoritedPaginated(?User $user, int $currentPage, int $elementLimit): Paginator
+    {
+        $query = $this->createQueryBuilder('a')
+            ->orderBy('a.createdAt', 'DESC')
+            ->join('a.favorites', 'f')
+            ->join('f.reader', 'u')
+            ->andWhere('u = :user')
+            ->setFirstResult(($currentPage - 1) * $elementLimit)
+            ->setMaxResults($elementLimit)
+            ->setParameter('user', $user)
         ;
 
         return new Paginator($query, true);

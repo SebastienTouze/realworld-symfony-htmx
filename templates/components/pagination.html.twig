@@ -1,0 +1,18 @@
+Page {{ currentPage }} of {{ lastPage }}
+
+{% if lastPage > 0 %}
+<ul class="pagination">
+    {% for page in  1..lastPage %}
+        <li class="page-item {% if page == currentPage %} active {% endif %}">
+            <a class="page-link" href="?page={{ page }}"
+               hx-get="?page={{ page }}"
+               hx-target="body"
+               hx-swap="outerHTML"
+               hx-replace-url="true"
+            >
+                {{ page }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+{% endif %}

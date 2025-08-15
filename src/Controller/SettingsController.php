@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\SettingsType;
 use App\Service\UserService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,8 +19,8 @@ final class SettingsController extends AbstractController
         $old_username = $user->getUsername();
 
         $form = $this->createForm(SettingsType::class, $user);
-
         $form->handleRequest($request);
+
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $userService->saveUser($user);
@@ -31,8 +30,11 @@ final class SettingsController extends AbstractController
             }
         }
 
-        return $this->render('settings/index.html.twig', [
-            'form' => $form,
-        ]);
+        $isHTMXRequest = $request->headers->get('HX-Request', false);
+        if ($isHTMXRequest) {
+            return $this->render('settings/components/settings-form-partial.html.twig', ['form' => $form]);
+        }
+
+        return $this->render('settings/index.html.twig', ['form' => $form]);
     }
 }

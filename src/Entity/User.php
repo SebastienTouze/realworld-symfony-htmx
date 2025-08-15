@@ -7,10 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Override;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -48,7 +46,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string')]
     private string $password;
 
-    private ?string $plainPassword=null;
+    private ?string $plainPassword = null;
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
@@ -159,7 +157,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    #[Override]
+    #[\Override]
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -176,13 +174,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    #[Override]
+    #[\Override]
     public function eraseCredentials(): void
     {
         $this->setPlainPassword(null);
     }
 
-    #[Override]
+    #[\Override]
     public function getUserIdentifier(): string
     {
         return $this->username;
@@ -208,6 +206,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPlainPassword(?string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
+
         return $this;
     }
 

@@ -10,13 +10,13 @@ class UserService
 {
     public function __construct(
         private readonly UserPasswordHasherInterface $userPasswordHasher,
-        private readonly EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager,
     ) {
     }
 
     public function saveUser(User $user): void
     {
-        if(null !== $user->getPlainPassword()) {
+        if (null !== $user->getPlainPassword()) {
             $user->setPassword(
                 $this->userPasswordHasher->hashPassword(
                     $user,

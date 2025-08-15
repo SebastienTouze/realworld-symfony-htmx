@@ -31,7 +31,7 @@ class RegistrationController extends AbstractController
             $userService->saveUser($user);
 
             // generate a signed url and email it to the user
-            //TODO migrate to a Doctrine event
+            // TODO migrate to a Doctrine event
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
                     ->from(new Address('noreply@symfony-htmx-realworld.com', 'SfHTMX demo mailer'))

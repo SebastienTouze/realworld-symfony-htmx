@@ -1,0 +1,31 @@
+{#  TODO add a notif to say when form is successfully saved #}
+{% if not form.vars.valid %}
+    <ul class="error-messages">
+        {% for child in form.children %}
+            {% for error in child.vars.errors %}
+                <li>{{ error.message }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{{ form_start(form, {attr: {'hx-post': path('app_settings')}}) }}
+<fieldset>
+    <fieldset class="form-group">
+        {{ form_widget(form.image, {'attr': {'class': 'form-control', 'placeholder': 'URL of profile picture'}}) }}
+    </fieldset>
+    <fieldset class="form-group">
+        {{ form_widget(form.username, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Your Name'}}) }}
+    </fieldset>
+    <fieldset class="form-group">
+        {{ form_widget(form.bio, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Short bio about you', rows: 8}}) }}
+    </fieldset>
+    <fieldset class="form-group">
+        {{ form_widget(form.email, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Email'}}) }}
+    </fieldset>
+    <fieldset class="form-group">
+        {{ form_widget(form.plainPassword, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'New Password'}}) }}
+    </fieldset>
+    <button class="btn btn-lg btn-primary pull-xs-right">Update Settings</button>
+</fieldset>
+{{ form_end(form) }}

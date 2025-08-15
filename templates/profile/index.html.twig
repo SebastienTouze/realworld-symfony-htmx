@@ -12,10 +12,11 @@
                             {{ user.bio }}
                         </p>
                         {% if user is same as(app.user) %}
-                            <button class="btn btn-sm btn-outline-secondary action-btn">
+                            <a class="btn btn-sm btn-outline-secondary action-btn"
+                            href="{{ path('app_settings') }}">
                                 <i class="ion-gear-a"></i>
                                 &nbsp; Edit Profile Settings
-                            </button>
+                            </a>
                         {% else %}
                             {% include 'components/follow-button.html.twig' with {'author': user} %}&nbsp;
                         {% endif %}

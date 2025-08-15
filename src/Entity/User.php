@@ -7,10 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Override;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -23,15 +25,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Email(message: 'This email is not valid')]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'The username is required')]
     private ?string $username = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $bio = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Url(protocols: ['HTTPS'])]
     private ?string $image = null;
 
     #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'author')]
@@ -91,7 +96,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
         return $this->username;
     }
 
-    public function setUsername(string $username): static
+    public function setUsername(?string $username): static
     {
         $this->username = $username;
 
@@ -152,7 +157,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
         return $this;
     }
 
-    #[\Override]
+    #[Override]
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -169,13 +174,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
         return $this;
     }
 
-    #[\Override]
+    #[Override]
     public function eraseCredentials(): void
     {
         // TODO: Implement eraseCredentials() method.
     }
 
-    #[\Override]
+    #[Override]
     public function getUserIdentifier(): string
     {
         return $this->username;
@@ -193,7 +198,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
         return $this;
     }
 
-    #[\Override]
+    #[Override]
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
         // TODO: Implement upgradePassword() method.

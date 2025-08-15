@@ -36,7 +36,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $bio = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Url(protocols: ['HTTPS'])]
+    #[Assert\Url(protocols: ['HTTPS', 'HTTP'])]
     private ?string $image = null;
 
     #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'author')]
@@ -48,7 +48,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string')]
     private string $password;
 
-    private ?string $plainPassword;
+    private ?string $plainPassword=null;
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;

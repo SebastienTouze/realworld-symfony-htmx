@@ -17,7 +17,7 @@ class SettingsType extends AbstractType
             ->add('username')
             ->add('bio')
             ->add('image')
-            ->add('plainPassword', PasswordType::class)
+            ->add('plainPassword', PasswordType::class, ['required' => false])
         ;
     }
 

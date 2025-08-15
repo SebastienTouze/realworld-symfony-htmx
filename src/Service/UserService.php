@@ -16,12 +16,15 @@ class UserService
 
     public function saveUser(User $user): void
     {
-        $user->setPassword(
-            $this->userPasswordHasher->hashPassword(
-                $user,
-                $user->getPlainPassword()
-            )
-        );
+        if(null !== $user->getPlainPassword()) {
+            $user->setPassword(
+                $this->userPasswordHasher->hashPassword(
+                    $user,
+                    $user->getPlainPassword()
+                )
+            );
+            $user->eraseCredentials();
+        }
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

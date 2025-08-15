@@ -179,7 +179,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Override]
     public function eraseCredentials(): void
     {
-        // TODO: Implement eraseCredentials() method.
+        $this->setPlainPassword(null);
     }
 
     #[Override]

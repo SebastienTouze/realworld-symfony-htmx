@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-class User implements UserInterface, PasswordAuthenticatedUserInterface, PasswordUpgraderInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -47,6 +47,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
 
     #[ORM\Column(type: 'string')]
     private string $password;
+
+    private ?string $plainPassword;
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
@@ -198,10 +200,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
         return $this;
     }
 
-    #[Override]
-    public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
+    public function getPlainPassword(): ?string
     {
-        // TODO: Implement upgradePassword() method.
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+        return $this;
     }
 
     public function isVerified(): bool

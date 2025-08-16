@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Entity\Article;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
@@ -14,15 +13,14 @@ class ArticleService
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         #[CurrentUser]
-        private readonly Security               $security
-    )
-    {
+        private readonly Security $security,
+    ) {
     }
 
     public function createOrUpdateArticle(Article $article): void
     {
         $this->generateSlug($article);
-        $article->setCreatedAt(new DateTimeImmutable());
+        $article->setCreatedAt(new \DateTimeImmutable());
         $article->setAuthor($this->security->getUser());
 
         $this->entityManager->persist($article);

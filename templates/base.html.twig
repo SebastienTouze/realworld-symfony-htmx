@@ -3,23 +3,23 @@
 <head>
     <meta charset="utf-8"/>
     <title>{% block title %}Conduit{% endblock %}</title>
-    <!-- Import Ionicon icons & Google Fonts our Bootstrap theme relies on -->
-    <link
-        href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
-        rel="stylesheet"
-        type="text/css"
-    />
-    <link
-        href="//fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic"
-        rel="stylesheet"
-        type="text/css"
-    />
-    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-    <!-- Import the custom Bootstrap 4 theme from our hosted CDN -->
-    <link rel="stylesheet" href="//demo.productionready.io/main.css"/>
     {% block stylesheets %}
+        <!-- Import Ionicon icons & Google Fonts our Bootstrap theme relies on -->
+        <link
+            href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="//fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <!-- Import the custom Bootstrap 4 theme from our hosted CDN -->
+        <link rel="stylesheet" href="//demo.productionready.io/main.css"/>
     {% endblock %}
     {% block javascripts %}
+        <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     {% endblock %}
 </head>
 <body>
@@ -32,15 +32,19 @@
                         <a class="nav-link {{ app.request.pathInfo is same as(path('app_home')) ? 'active'}}" href="/">Home</a>
                     </li>
                     {% if not app.user %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Sign in</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_register') }}">Sign up</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ app.request.pathInfo is same as(path('app_login')) ? 'active' }}"
+                               href="{{ path('app_login') }}">Sign in</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ app.request.pathInfo is same as(path('app_register')) ? 'active' }}"
+                               href="{{ path('app_register') }}">Sign up</a>
+                        </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/editor"> <i class="ion-compose"></i>&nbsp;New Article </a>
+                        <a class="nav-link {{ app.request.pathInfo is same as(path('app_editor')) ? 'active'}}" href="{{ path('app_editor') }}">
+                            <i class="ion-compose"></i>&nbsp;New Article
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ app.request.pathInfo is same as(path('app_settings')) ? 'active'}}" href="{{ path('app_settings') }}">

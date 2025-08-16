@@ -18,7 +18,7 @@ class ArticleType extends AbstractType
         $builder
             ->add('title', TextType::class)
             ->add('description', TextType::class)
-            ->add('body', TextAreaType::class)
+            ->add('body', TextareaType::class)
             ->add('tags', EntityType::class, [
                 'class' => Tag::class,
                 'choice_label' => 'label',

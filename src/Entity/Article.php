@@ -31,7 +31,7 @@ class Article
     #[Assert\NotBlank]
     private ?string $body = null;
 
-    //TODO add subscriber or listener to auto update this
+    // TODO add subscriber or listener to auto update this
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 

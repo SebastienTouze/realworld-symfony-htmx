@@ -21,12 +21,17 @@
     </fieldset>
     <fieldset class="form-group">
         {{ form_widget(form.tags, {'attr': {'class': 'form-control', 'placeholder': 'Enter tags'}}) }}
-        <div class="tag-list">
-            <span class="tag-default tag-pill"> <i class="ion-close-round"></i> tag </span>
-        </div>
     </fieldset>
     <button class="btn btn-lg pull-xs-right btn-primary" type="submit">
         Publish Article
     </button>
 </fieldset>
 {{ form_end(form) }}
+
+<script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@4.0.1/dist/js/multi-select-tag.min.js"></script>
+<script>
+    var tagSelector = new MultiSelectTag('{{ form.tags.vars.id }}', {
+        required: false,
+        placeholder: 'Select or search tags',
+    });
+</script>

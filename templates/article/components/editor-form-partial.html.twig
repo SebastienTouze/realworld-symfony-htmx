@@ -1,0 +1,32 @@
+{% if not form.vars.valid %}
+    <ul class="error-messages">
+        {% for child in form.children %}
+            {% for error in child.vars.errors %}
+                <li>{{ error.message }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{{ form_start(form, {attr: {'hx-post': path('app_editor')}}) }}
+<fieldset>
+    <fieldset class="form-group">
+        {{ form_widget(form.title, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Article Title'}}) }}
+    </fieldset>
+    <fieldset class="form-group">
+        {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'What\'s this article about?'}}) }}
+    </fieldset>
+    <fieldset class="form-group">
+        {{ form_widget(form.body, {'attr': {'class': 'form-control', 'rows': 8, 'placeholder': 'Write your article (in markdown)'}}) }}
+    </fieldset>
+    <fieldset class="form-group">
+        {{ form_widget(form.tags, {'attr': {'class': 'form-control', 'placeholder': 'Enter tags'}}) }}
+        <div class="tag-list">
+            <span class="tag-default tag-pill"> <i class="ion-close-round"></i> tag </span>
+        </div>
+    </fieldset>
+    <button class="btn btn-lg pull-xs-right btn-primary" type="submit">
+        Publish Article
+    </button>
+</fieldset>
+{{ form_end(form) }}

@@ -36,14 +36,14 @@ class ArticleFavoriteButtonController extends AbstractController
     {
     }
 
-    #[Route('/{slug}/favorite', methods: ['POST'])]
-    public function addFavoriteArticle(string $slug, Request $request): Response
+    #[Route('/{id}/favorite', methods: ['POST'])]
+    public function addFavoriteArticle(int $id, Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $renderWithSize = $request->query->get('format') ?? self::ButtonSize['Default'];
 
-        $article = $this->articleRepository->findOneBy(['slug' => $slug]);
+        $article = $this->articleRepository->find($id);
         // TODO success message
         $this->favoriteService->addArticleToUserFavorites($article, $this->getUser());
 

@@ -34,12 +34,6 @@ class ArticleController extends AbstractController
         return $this->manageFormAndCreateResponse(new Article(), $request, $articleService, 'app_editor_new');
     }
 
-    /**
-     * @param Article $article
-     * @param Request $request
-     * @param ArticleService $articleService
-     * @return Response
-     */
     public function manageFormAndCreateResponse(Article $article, Request $request, ArticleService $articleService, string $hxTarget): Response
     {
         $form = $this->createForm(ArticleType::class, $article);
@@ -48,6 +42,7 @@ class ArticleController extends AbstractController
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $articleService->createOrUpdateArticle($article);
+
                 return $this->redirectToRoute('app_article', [
                     'id' => $article->getId(),
                     'slug' => $article->getSlug(),
@@ -78,5 +73,4 @@ class ArticleController extends AbstractController
 
         return $this->redirectToRoute('app_home');
     }
-
 }

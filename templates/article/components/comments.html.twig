@@ -1,0 +1,49 @@
+<div id="comments" class="row">
+    <div class="col-xs-12 col-md-8 offset-md-2">
+        {% if commentForm is defined and commentForm %}
+            {{ form_start(commentForm, {'attr': {
+                    'class': "card comment-form",
+                    'hx-post': path('app_comments_new', {'id': article.id}),
+                    'hx-target': '#comments',
+                    'hx-swap': 'outerHTML',
+                }
+                }) }}
+            <div class="card-block">
+                {{ form_widget(commentForm.body, {'attr': {'class': "form-control", 'placeholder': "Write a comment...", 'row': "3"}}) }}
+            </div>
+            <div class="card-footer">
+                {% if app.user.image %}
+                    <img src="{{ app.user.image }}" class="comment-author-img" alt="Your picture"/>
+                {% endif %}
+                <button class="btn btn-sm btn-primary">Post Comment</button>
+            </div>
+            {{ form_end(commentForm) }}
+        {% else %}
+            <div>
+                <a href="{{ path('app_login') }}">Sign in</a> or <a href="{{ path('app_register') }}">sign up</a>
+                to add comments on this article.
+            </div>
+        {% endif %}
+
+        {% for comment in article.comments %}
+            <div class="card">
+                <div class="card-block">
+                    <p class="card-text">
+                        {{ comment.body }}
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ path('app_profile', {username: comment.author.username}) }}" class="comment-author">
+                        {% if comment.author.image %}
+                        <img src="{{ comment.author.image }}" class="comment-author-img"
+                             alt="picture of {{ comment.author.username }}"/>
+                        &nbsp;
+                        {%  endif %}
+                        {{ comment.author.username }}
+                    </a>
+                    <span class="date-posted">{{ comment.createdAt | date("F j Y") }}</span>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

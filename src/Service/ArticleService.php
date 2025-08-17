@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Article;
+use App\Entity\Comment;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
@@ -24,6 +25,16 @@ class ArticleService
         $article->setAuthor($this->security->getUser());
 
         $this->entityManager->persist($article);
+        $this->entityManager->flush();
+    }
+
+    public function addComment(Comment $comment, Article $article): void
+    {
+        $user = $this->security->getUser();
+        $comment->setAuthor($user)
+            ->setArticle($article)
+            ->setCreatedAt(new \DateTimeImmutable());
+        $this->entityManager->persist($comment);
         $this->entityManager->flush();
     }
 

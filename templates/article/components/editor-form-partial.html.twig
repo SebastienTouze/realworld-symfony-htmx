@@ -7,8 +7,11 @@
         {% endfor %}
     </ul>
 {% endif %}
-
-{{ form_start(form, {attr: {'hx-post': path('app_editor')}}) }}
+{% if hxTarget == 'app_editor_new' %}
+    {{ form_start(form, {attr: {'hx-post': path('app_editor_new')}}) }}
+{% else %}
+    {{ form_start(form, {attr: {'hx-post': path('app_editor_edit', {'id': form.vars.value.id, 'slug': form.vars.value.slug})}}) }}
+{% endif %}
 <fieldset>
     <fieldset class="form-group">
         {{ form_widget(form.title, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Article Title'}}) }}

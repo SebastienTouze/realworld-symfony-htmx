@@ -42,7 +42,7 @@
                         </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link {{ app.request.pathInfo is same as(path('app_editor')) ? 'active'}}" href="{{ path('app_editor') }}">
+                        <a class="nav-link {{ app.request.pathInfo is same as(path('app_editor_new')) ? 'active'}}" href="{{ path('app_editor_new') }}">
                             <i class="ion-compose"></i>&nbsp;New Article
                         </a>
                     </li>

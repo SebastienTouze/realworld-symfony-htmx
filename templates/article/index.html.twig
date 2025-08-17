@@ -8,22 +8,7 @@
             <div class="container">
                 <h1>{{ article.title }}</h1>
 
-                <div class="article-meta">
-                    <a href="{{ path('app_profile', {'username': article.author.username }) }}"><img src="{{ article.author.image }}" /></a>
-                    <div class="info">
-                        <a href="{{ path('app_profile', {'username': article.author.username }) }}" class="author">{{ article.author.username }}</a>
-                        <span class="date">January 20th</span> {#  TODO #}
-                    </div>
-                    {% include 'components/follow-button.html.twig' with {'author': article.author} %}&nbsp;
-                    &nbsp;&nbsp;
-                    {% include 'components/favorite-button.html.twig' with {'article': article, 'format': 'large'} %}
-                    <button class="btn btn-sm btn-outline-secondary">
-                        <i class="ion-edit"></i> Edit Article
-                    </button>
-                    <button class="btn btn-sm btn-outline-danger">
-                        <i class="ion-trash-a"></i> Delete Article
-                    </button>
-                </div>
+                {% include 'article/components/article-meta.html.twig' %}
             </div>
         </div>
 
@@ -44,22 +29,7 @@
             <hr />
 
             <div class="article-actions">
-                <div class="article-meta">
-                    <a href="/profile/{{ article.author.username }}"><img src="{{ article.author.image }}" /></a>
-                    <div class="info">
-                        <a href="" class="author">{{ article.author.username }}</a>
-                        <span class="date">January 20th</span>
-                    </div>
-
-                    {% include 'components/follow-button.html.twig' with {'author': article.author} %}&nbsp;
-                    {% include 'components/favorite-button.html.twig' with {'article': article, 'format': 'large'} %}&nbsp;
-                    <button class="btn btn-sm btn-outline-secondary">
-                        <i class="ion-edit"></i> Edit Article
-                    </button>
-                    <button class="btn btn-sm btn-outline-danger">
-                        <i class="ion-trash-a"></i> Delete Article
-                    </button>
-                </div>
+                {% include 'article/components/article-meta.html.twig' %}
             </div>
 
             <div class="row">

@@ -16,7 +16,7 @@
             <div class="row article-content">
                 <div class="col-md-12">
                     <div>
-                        {{ article.body }}
+                        {{ article.body | markdown_to_html }}
                     </div>
                     <ul class="tag-list">
                         {% for tag in article.tags %}

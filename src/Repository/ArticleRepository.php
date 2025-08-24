@@ -76,4 +76,20 @@ class ArticleRepository extends ServiceEntityRepository
 
         return new Paginator($query, true);
     }
+
+    public function findByFavoritedAuthorPaginated(?User $user, int $currentPage, int $elementLimit): Paginator
+    {
+        $query = $this->createQueryBuilder('a')
+            ->orderBy('a.createdAt', 'DESC')
+            ->join('a.author', 'author')
+            ->join('author.followers', 'f')
+            ->join('f.follower', 'u')
+            ->andWhere('u = :user')
+            ->setFirstResult(($currentPage - 1) * $elementLimit)
+            ->setMaxResults($elementLimit)
+            ->setParameter('user', $user)
+        ;
+
+        return new Paginator($query, true);
+    }
 }

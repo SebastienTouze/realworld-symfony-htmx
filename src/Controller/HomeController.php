@@ -50,4 +50,20 @@ class HomeController extends AbstractController
             'lastPage' => ceil(count($paginatedArticles) / $this->elementPerPage),
         ]);
     }
+
+    #[Route('/your-feed', name: 'app_home_your_feed')]
+    public function yourFeed(Request $request): Response
+    {
+        $page = (int) $request->query->get('page', 1);
+        $page <= 1 && $page = 1;
+
+        $paginatedArticles = $this->articleRepository->findByFavoritedAuthorPaginated($this->getUser(), $page, $this->elementPerPage);
+
+        return $this->render('home/index.html.twig', [
+            'activeFeed' => 'your',
+            'paginatedArticles' => $paginatedArticles,
+            'currentPage' => $page,
+            'lastPage' => ceil(count($paginatedArticles) / $this->elementPerPage),
+        ]);
+    }
 }

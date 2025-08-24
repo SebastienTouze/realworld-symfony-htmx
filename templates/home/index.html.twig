@@ -14,9 +14,11 @@
                 <div class="col-md-9">
                     <div class="feed-toggle">
                         <ul class="nav nav-pills outline-active">
+                            {% if app.user %}
                             <li class="nav-item">
-                                <a class="nav-link" href="">Your Feed</a>
+                                <a class="nav-link  {{ activeFeed and activeFeed == 'your' ? 'active' : '' }}" href="{{ path('app_home_your_feed') }}">Your Feed</a>
                             </li>
+                            {% endif %}
                             <li class="nav-item">
                                 <a class="nav-link {{ activeFeed and activeFeed == 'global' ? 'active' : '' }}" href="/">Global Feed</a>
                             </li>

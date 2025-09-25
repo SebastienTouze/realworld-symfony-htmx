@@ -30,4 +30,12 @@ class FollowService
         $this->entityManager->persist($followRelation);
         $this->entityManager->flush();
     }
+
+    public function isFollowing(User $follower, User $followed): bool
+    {
+        $existingFollow = $this->followRepository->findOneBy(['follower' => $follower, 'followed' => $followed]);
+
+        return null !== $existingFollow;
+    }
+
 }

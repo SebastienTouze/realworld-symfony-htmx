@@ -7,7 +7,7 @@
             class="date">{{ article.createdAt | date("F j Y") }} {% if article.updatedAt is not null %}, updated: {{ article.updatedAt | date("F j Y") }}{% endif %}</span> {#  TODO #}
     </div>
     {% if app.user and article.author.username != app.user.username %}
-        {% include 'components/follow-button.html.twig' with {'author': article.author} %}&nbsp;
+        {% include 'components/follow-button.html.twig' with {'author': article.author, 'following': following} %}&nbsp;
     {% endif %}
     &nbsp;&nbsp;
     {% include 'components/favorite-button.html.twig' with {'article': article, 'format': 'large'} %}

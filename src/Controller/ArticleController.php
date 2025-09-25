@@ -25,6 +25,7 @@ class ArticleController extends AbstractController
 
         return $this->render('article/index.html.twig', [
             'article' => $article,
+            'following' => false //TODO fix this
         ]);
     }
 

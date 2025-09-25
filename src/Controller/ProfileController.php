@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\ArticleRepository;
 use App\Repository\UserRepository;
+use App\Service\FollowService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +16,7 @@ class ProfileController extends AbstractController
     public function __construct(
         private readonly UserRepository $userRepository,
         private readonly ArticleRepository $articleRepository,
+        private readonly FollowService $followService,
         #[Autowire(env: 'ELEMENT_PER_PAGE')]
         private readonly int $elementPerPage,
     ) {
@@ -36,6 +38,7 @@ class ProfileController extends AbstractController
             'paginatedArticles' => $paginatedArticles,
             'currentPage' => $page,
             'lastPage' => ceil($paginatedArticles->count() / $this->elementPerPage),
+            'following' => $this->followService->isFollowing($this->getUser(), $userWatched),
         ]);
     }
 
@@ -55,6 +58,7 @@ class ProfileController extends AbstractController
             'paginatedArticles' => $paginatedArticles,
             'currentPage' => $page,
             'lastPage' => ceil($paginatedArticles->count() / $this->elementPerPage),
+            'following' => $this->followService->isFollowing($this->getUser(), $userWatched),
         ]);
     }
 }

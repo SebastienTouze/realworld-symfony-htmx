@@ -28,6 +28,7 @@ class FollowButtonController extends AbstractController
 
         return $this->render('components/follow-button.html.twig', [
             'author' => $author,
+            'following' => true
         ]);
     }
 }

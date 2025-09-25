@@ -1,4 +1,4 @@
-<button class="btn btn-sm btn-outline-primary"
+<button class="btn btn-sm {{ isFavorited ? 'btn-primary' : 'btn-outline-primary' }}"
         hx-post="{{ path('app_htmx_articlefavoritebutton_addfavoritearticle', {'id': article.id, 'format': format}) }}"
         hx-swap="outerHTML">
     <i class="ion-heart"></i>

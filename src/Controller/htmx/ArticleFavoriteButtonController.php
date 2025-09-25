@@ -50,7 +50,41 @@ class ArticleFavoriteButtonController extends AbstractController
         // default is small button
         return $this->render('components/favorite-button.html.twig', [
             'article' => $article,
-            'format' => $renderWithSize]);
+            'format' => $renderWithSize,
+            'isFavorited' => true //TODO handle failure in writing DB
+        ]);
+    }
+
+    #[Route('/{id}/favorite', methods: ['GET'])]
+    public function getFavoriteButton(int $id, Request $request): Response
+    {
+        // Extract and validate format parameter
+        $format = $this->getFormatFromRequest($request);
+
+        // Find article with error handling
+        $article = $this->articleRepository->find($id);
+        if (!$article) {
+            throw $this->createNotFoundException('Article not found');
+        }
+
+        // if user is connected, checks the favorite status
+        $user = $this->getUser();
+        $isFavorited = false;
+
+        if ($user !== null) {
+            $favorite = $this->favoriteRepository->findOneBy([
+                'article' => $article,
+                'reader' => $user
+            ]);
+            $isFavorited = $favorite !== null;
+        }
+
+        // Render button with complete context
+        return $this->render('components/favorite-button.html.twig', [
+            'article' => $article,
+            'format' => $format,
+            'isFavorited' => $isFavorited,
+        ]);
     }
 
     // TODO remove if already favorite
@@ -68,6 +102,22 @@ class ArticleFavoriteButtonController extends AbstractController
             $this->entityManager->flush();
         }
 
-        return $this->render('components/favorite-button.html.twig', ['article' => $article, 'format' => 'large']);
+        return $this->render('components/favorite-button.html.twig', [
+            'article' => $article,
+            'format' => 'large',
+            'isFavorited' => false //TODO handle failure to update
+        ]);
+    }
+
+    /**
+     * Gets the format param from request and validate the validity, set to Default if not present or invalid
+     */
+    private function getFormatFromRequest(Request $request): string
+    {
+        $format = $request->query->get('format', self::ButtonSize['Default']);
+        if (!in_array($format, self::ButtonSize, true)) {
+            $format = self::ButtonSize['Default'];
+        }
+        return $format;
     }
 }

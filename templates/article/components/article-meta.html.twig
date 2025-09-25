@@ -10,7 +10,7 @@
         {% include 'components/follow-button.html.twig' with {'author': article.author, 'following': following} %}&nbsp;
     {% endif %}
     &nbsp;&nbsp;
-    {% include 'components/favorite-button.html.twig' with {'article': article, 'format': 'large'} %}
+    {{ render(controller('App\\Controller\\htmx\\ArticleFavoriteButtonController::getFavoriteButton', {'id': article.id, 'format': 'large'})) }}
     {% if app.user and article.author.username == app.user.username %}
         <a class="btn btn-sm btn-outline-secondary"
            href="{{ path('app_editor_edit', {'id': article.id, 'slug': article.slug}) }}">

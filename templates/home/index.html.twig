@@ -29,7 +29,8 @@
 
                     {%  if paginatedArticles.count < 1 %}
                         <div style="margin: 15px">😱Ho no! No articles here!<br/>
-                            So sad... quick! 🔥Go create one!!</div>
+                            So sad... quick! 🔥{% if activeFeed and activeFeed == 'your' %}Go follow someone!!{% else %}Go create one!!{% endif %}
+                        </div>
                     {% endif %}
 
                     {% for article in paginatedArticles %}

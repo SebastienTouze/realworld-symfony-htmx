@@ -18,7 +18,7 @@
                                 &nbsp; Edit Profile Settings
                             </a>
                         {% else %}
-                            {% include 'components/follow-button.html.twig' with {'author': user, 'following': following} %}&nbsp;
+                            {{ render(controller('App\\Controller\\htmx\\FollowButtonController::getFollowButton', {'username': user.username})) }}&nbsp;
                         {% endif %}
                     </div>
                 </div>

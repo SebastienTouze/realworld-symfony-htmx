@@ -31,6 +31,16 @@ class FollowService
         $this->entityManager->flush();
     }
 
+    public function removeUserFromFollowed(User $follower, User $followed): void
+    {
+        $existingFollow = $this->followRepository->findOneBy(['follower' => $follower, 'followed' => $followed]);
+
+        if (null !== $existingFollow) {
+            $this->entityManager->remove($existingFollow);
+            $this->entityManager->flush();
+        }
+    }
+
     public function isFollowing(User $follower, User $followed): bool
     {
         $existingFollow = $this->followRepository->findOneBy(['follower' => $follower, 'followed' => $followed]);

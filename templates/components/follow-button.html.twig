@@ -1,6 +1,10 @@
-<button class="btn btn-sm btn-outline-secondary"
-        hx-post="{{ path('app_htmx_followbutton_followuser', {'username': author.username}) }}"
+<button class="btn btn-sm {{ isFollowing ? 'btn-secondary' : 'btn-outline-secondary' }}"
+        {% if isFollowing %}
+            hx-post="{{ path('app_htmx_followbutton_unfollowuser', {'username': author.username}) }}"
+        {% else %}
+            hx-post="{{ path('app_htmx_followbutton_followuser', {'username': author.username}) }}"
+        {% endif %}
         hx-swap="outerHTML">
     <i class="ion-plus-round"></i>
-    &nbsp; {{ following ? 'Following' : 'Follow' }} {{ author.username }} ({{ author.followers.count }})
+    &nbsp; {{ isFollowing ? 'Following' : 'Follow' }} {{ author.username }} ({{ author.followers.count }})
 </button>

@@ -44,14 +44,26 @@ class ArticleFavoriteButtonController extends AbstractController
         $renderWithSize = $request->query->get('format') ?? self::ButtonSize['Default'];
 
         $article = $this->articleRepository->find($id);
+        if (!$article) {
+            throw $this->createNotFoundException('Article not found');
+        }
+
         // TODO success message
-        $this->favoriteService->addArticleToUserFavorites($article, $this->getUser());
+        try {
+            $this->favoriteService->addArticleToUserFavorites($article, $this->getUser());
+        } catch (\Exception $e) {
+            return $this->render('components/favorite-button.html.twig', [
+            'article' => $article,
+            'format' => $renderWithSize,
+            'isFavorited' => false
+        ]);
+        }
 
         // default is small button
         return $this->render('components/favorite-button.html.twig', [
             'article' => $article,
             'format' => $renderWithSize,
-            'isFavorited' => true //TODO handle failure in writing DB
+            'isFavorited' => true
         ]);
     }
 
@@ -94,6 +106,10 @@ class ArticleFavoriteButtonController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $article = $this->articleRepository->findOneBy(['slug' => $slug]);
+        if (!$article) {
+            throw $this->createNotFoundException('Article not found');
+        }
+
         $favorite = $this->favoriteRepository->findOneBy(['article' => $article, 'reader' => $this->getUser()]);
 
         // TODO success / error message

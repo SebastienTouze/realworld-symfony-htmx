@@ -1,11 +1,12 @@
-<div class="toast toast-{{ type }}"
-     hx-swap-oob="beforeend:#toast-container"
-     style="animation: slideIn 0.3s ease-out;">
-    <div class="toast-content">
+<div hx-swap-oob="beforeend:#toast-container">
+    <div class="toast toast-{{ type }}"
+         style="animation: slideIn 0.3s ease-out;">
+        <div class="toast-content">
         <span class="toast-icon">
             {% if type == 'success' %}✓{% else %}⚠{% endif %}
         </span>
-        <span class="toast-message">{{ message }}</span>
-        <button class="toast-close" onclick="this.parentElement.parentElement.remove()">×</button>
+            <span class="toast-message">{{ message }}</span>
+            <button class="toast-close" onclick="this.parentElement.parentElement.remove()">×</button>
+        </div>
     </div>
 </div>

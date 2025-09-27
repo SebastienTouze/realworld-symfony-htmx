@@ -131,7 +131,19 @@
     {% endblock %}
 </head>
 <body>
-    <div id="toast-container" class="toast-container"></div>
+<div id="toast-container" class="toast-container">
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="toast toast-{{ type == 'error' ? 'error' : 'success' }}" style="animation: slideIn 0.3s ease-out;">
+                <div class="toast-content">
+                    <span class="toast-icon">{{ type == 'error' ? '✖' : '✓' }}</span>
+                    <span class="toast-message">{{ message }}</span>
+                    <button class="toast-close" onclick="this.parentElement.parentElement.remove()">&times;</button>
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>
     {% block body %}
         <nav class="navbar navbar-light">
             <div class="container">

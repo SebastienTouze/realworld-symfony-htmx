@@ -34,7 +34,7 @@ class ArticleController extends AbstractController
         return $this->manageFormAndCreateResponse(new Article(), $request, $articleService, 'app_editor_new');
     }
 
-    public function manageFormAndCreateResponse(Article $article, Request $request, ArticleService $articleService, string $hxTarget): Response
+    private function manageFormAndCreateResponse(Article $article, Request $request, ArticleService $articleService, string $hxTarget): Response
     {
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);

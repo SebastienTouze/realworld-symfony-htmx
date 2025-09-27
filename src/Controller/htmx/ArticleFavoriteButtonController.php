@@ -8,11 +8,9 @@
 
 namespace App\Controller\htmx;
 
-use App\Entity\Favorite;
 use App\Repository\ArticleRepository;
 use App\Repository\FavoriteRepository;
 use App\Service\FavoriteService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +29,6 @@ class ArticleFavoriteButtonController extends AbstractController
 
     public function __construct(private ArticleRepository $articleRepository,
         private FavoriteRepository $favoriteRepository,
-        private EntityManagerInterface $entityManager,
         private FavoriteService $favoriteService)
     {
     }
@@ -101,7 +98,6 @@ class ArticleFavoriteButtonController extends AbstractController
         ]);
     }
 
-    // TODO remove if already favorite
     #[Route('/{slug}/favorite', methods: ['DELETE'])]
     public function removeFavoriteArticle(string $slug): Response
     {
@@ -112,13 +108,8 @@ class ArticleFavoriteButtonController extends AbstractController
             throw $this->createNotFoundException('Article not found');
         }
 
-        $favorite = $this->favoriteRepository->findOneBy(['article' => $article, 'reader' => $this->getUser()]);
-
         try {
-            if ($favorite) {
-                $this->entityManager->remove($favorite);
-                $this->entityManager->flush();
-
+            if ($this->favoriteService->removeArticleFromUserFavorites($article, $this->getUser())) {
                 return $this->render('components/favorite-button.html.twig', [
                     'article' => $article,
                     'format' => 'large',

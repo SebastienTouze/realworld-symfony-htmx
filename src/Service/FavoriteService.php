@@ -34,4 +34,18 @@ class FavoriteService
         $this->entityManager->persist($favorite);
         $this->entityManager->flush();
     }
+
+    public function removeArticleFromUserFavorites(Article $article, User $user): bool
+    {
+        $favorite = $this->favoriteRepository->findOneBy(['article' => $article, 'reader' => $user]);
+
+        if (null === $favorite) {
+            return false;
+        }
+
+        $this->entityManager->remove($favorite);
+        $this->entityManager->flush();
+
+        return true;
+    }
 }

@@ -21,7 +21,6 @@ class ArticleService
     public function createOrUpdateArticle(Article $article): void
     {
         $this->generateSlug($article);
-        $article->setCreatedAt(new \DateTimeImmutable());
         $article->setAuthor($this->security->getUser());
 
         $this->entityManager->persist($article);

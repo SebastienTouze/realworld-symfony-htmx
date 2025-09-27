@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Article
 {
     #[ORM\Id]
@@ -31,7 +32,6 @@ class Article
     #[Assert\NotBlank]
     private ?string $body = null;
 
-    // TODO add subscriber or listener to auto update this
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -211,5 +211,17 @@ class Article
         }
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function prePersist(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
+    #[ORM\PreUpdate]
+    public function preUpdate(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
     }
 }

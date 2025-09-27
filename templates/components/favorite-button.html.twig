@@ -5,3 +5,10 @@
     &nbsp; {% if format == 'large' %}Favorite Post <span class="counter">({{ article.favoritedCount }})</span>
     {% else %}<span class="counter">{{ article.favoritedCount }}</span>{% endif %}
 </button>
+
+{% if toastMessage is defined %}
+    {% include 'components/toast.html.twig' with {
+        'message': toastMessage,
+        'type': toastType
+    } %}
+{% endif %}

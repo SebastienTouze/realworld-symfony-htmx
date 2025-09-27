@@ -48,23 +48,25 @@ class ArticleFavoriteButtonController extends AbstractController
             throw $this->createNotFoundException('Article not found');
         }
 
-        // TODO success message
         try {
             $this->favoriteService->addArticleToUserFavorites($article, $this->getUser());
+
+            return $this->render('components/favorite-button.html.twig', [
+                'article' => $article,
+                'format' => $renderWithSize,
+                'isFavorited' => true,
+                'toastMessage' => 'Article favorited successfully!',
+                'toastType' => 'success'
+            ]);
         } catch (\Exception $e) {
             return $this->render('components/favorite-button.html.twig', [
-            'article' => $article,
-            'format' => $renderWithSize,
-            'isFavorited' => false
-        ]);
+                'article' => $article,
+                'format' => $renderWithSize,
+                'isFavorited' => false,
+                'toastMessage' => 'Failed to favorite article',
+                'toastType' => 'error'
+            ]);
         }
-
-        // default is small button
-        return $this->render('components/favorite-button.html.twig', [
-            'article' => $article,
-            'format' => $renderWithSize,
-            'isFavorited' => true
-        ]);
     }
 
     #[Route('/{id}/favorite', methods: ['GET'])]
@@ -112,17 +114,36 @@ class ArticleFavoriteButtonController extends AbstractController
 
         $favorite = $this->favoriteRepository->findOneBy(['article' => $article, 'reader' => $this->getUser()]);
 
-        // TODO success / error message
-        if ($favorite) {
-            $this->entityManager->remove($favorite);
-            $this->entityManager->flush();
-        }
+        try {
+            if ($favorite) {
+                $this->entityManager->remove($favorite);
+                $this->entityManager->flush();
 
-        return $this->render('components/favorite-button.html.twig', [
-            'article' => $article,
-            'format' => 'large',
-            'isFavorited' => false //TODO handle failure to update
-        ]);
+                return $this->render('components/favorite-button.html.twig', [
+                    'article' => $article,
+                    'format' => 'large',
+                    'isFavorited' => false,
+                    'toastMessage' => 'Article removed from favorites',
+                    'toastType' => 'success'
+                ]);
+            }
+
+            return $this->render('components/favorite-button.html.twig', [
+                'article' => $article,
+                'format' => 'large',
+                'isFavorited' => false,
+                'toastMessage' => 'Article was not in favorites',
+                'toastType' => 'error'
+            ]);
+        } catch (\Exception $e) {
+            return $this->render('components/favorite-button.html.twig', [
+                'article' => $article,
+                'format' => 'large',
+                'isFavorited' => true,
+                'toastMessage' => 'Failed to remove from favorites',
+                'toastType' => 'error'
+            ]);
+        }
     }
 
     /**

@@ -10,7 +10,7 @@
 </button>
 
 {% if toastMessage is defined %}
-    {% include 'components/toast.html.twig' with {
+    {% include 'components/htmx-wrapped-toast.html.twig' with {
         'message': toastMessage,
         'type': toastType
     } %}

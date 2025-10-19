@@ -24,6 +24,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     #[Assert\Email(message: 'This email is not valid')]
+    #[Assert\NotBlank(message: 'The email is required')]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]

@@ -21,18 +21,30 @@ final class SettingsController extends AbstractController
         $form = $this->createForm(SettingsType::class, $user);
         $form->handleRequest($request);
 
+        $toastMessage=null;
+        $toastType=null;
+
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $userService->saveUser($user);
+                $toastMessage = 'Settings updated successfully!';
+                $toastType = 'success';
             } else {
                 // this is to avoid the case when the user set empty username
                 $user->setUsername($old_username);
+                $toastMessage = 'Failed to update settings';
+                $toastType = 'error';
             }
         }
 
         $isHTMXRequest = $request->headers->get('HX-Request', false);
         if ($isHTMXRequest) {
-            return $this->render('settings/components/settings-form-partial.html.twig', ['form' => $form]);
+            return $this->render('settings/components/settings-form-partial.html.twig',
+                [
+                    'form' => $form,
+                    'toastMessage' => $toastMessage,
+                    'toastType' => $toastType
+                ]);
         }
 
         return $this->render('settings/index.html.twig', ['form' => $form]);

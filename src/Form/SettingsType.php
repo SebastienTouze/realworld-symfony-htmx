@@ -13,8 +13,8 @@ class SettingsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email')
-            ->add('username')
+            ->add('email', null, ['required' => true, 'empty_data' => ''])
+            ->add('username', null, ['required' => true, 'empty_data' => ''])
             ->add('bio')
             ->add('image')
             ->add('plainPassword', PasswordType::class, ['required' => false])

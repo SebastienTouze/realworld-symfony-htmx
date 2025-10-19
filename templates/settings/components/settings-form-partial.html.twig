@@ -1,4 +1,3 @@
-{#  TODO add a notif to say when form is successfully saved #}
 {% if not form.vars.valid %}
     <ul class="error-messages">
         {% for child in form.children %}
@@ -29,3 +28,10 @@
     <button class="btn btn-lg btn-primary pull-xs-right">Update Settings</button>
 </fieldset>
 {{ form_end(form) }}
+
+{% if toastMessage is defined and toastMessage is not null %}
+    {% include 'components/htmx-wrapped-toast.html.twig' with {
+        'message': toastMessage,
+        'type': toastType
+    } %}
+{% endif %}

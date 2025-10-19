@@ -47,5 +47,4 @@ class FollowService
 
         return null !== $existingFollow;
     }
-
 }

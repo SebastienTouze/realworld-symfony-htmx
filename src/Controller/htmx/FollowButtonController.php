@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\FollowService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
@@ -17,9 +16,8 @@ class FollowButtonController extends AbstractController
 {
     public function __construct(
         private readonly UserRepository $userRepository,
-        private readonly FollowService  $followService
-    )
-    {
+        private readonly FollowService $followService,
+    ) {
     }
 
     #[Route('/{username}/follow', methods: ['GET'])]
@@ -35,7 +33,7 @@ class FollowButtonController extends AbstractController
         $user = $this->getUser();
         $isFollowing = false;
 
-        if ($user !== null) {
+        if (null !== $user) {
             $isFollowing = $this->followService->isFollowing($user, $author);
         }
 
@@ -65,15 +63,15 @@ class FollowButtonController extends AbstractController
             return $this->render('components/follow-button.html.twig', [
                 'author' => $author,
                 'isFollowing' => false,
-                'toastMessage' => 'You are no longer following ' . $author->getUsername(),
-                'toastType' => 'success'
+                'toastMessage' => 'You are no longer following '.$author->getUsername(),
+                'toastType' => 'success',
             ]);
         } catch (\Exception $e) {
             return $this->render('components/follow-button.html.twig', [
                 'author' => $author,
                 'isFollowing' => true,
                 'toastMessage' => 'Failed to unfollow user',
-                'toastType' => 'error'
+                'toastType' => 'error',
             ]);
         }
     }
@@ -95,15 +93,15 @@ class FollowButtonController extends AbstractController
             return $this->render('components/follow-button.html.twig', [
                 'author' => $author,
                 'isFollowing' => true,
-                'toastMessage' => 'You are now following ' . $author->getUsername(),
-                'toastType' => 'success'
+                'toastMessage' => 'You are now following '.$author->getUsername(),
+                'toastType' => 'success',
             ]);
         } catch (\Exception $e) {
             return $this->render('components/follow-button.html.twig', [
                 'author' => $author,
                 'isFollowing' => false,
                 'toastMessage' => 'Failed to follow user',
-                'toastType' => 'error'
+                'toastType' => 'error',
             ]);
         }
     }

@@ -21,8 +21,8 @@ final class SettingsController extends AbstractController
         $form = $this->createForm(SettingsType::class, $user);
         $form->handleRequest($request);
 
-        $toastMessage=null;
-        $toastType=null;
+        $toastMessage = null;
+        $toastType = null;
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
@@ -43,7 +43,7 @@ final class SettingsController extends AbstractController
                 [
                     'form' => $form,
                     'toastMessage' => $toastMessage,
-                    'toastType' => $toastType
+                    'toastType' => $toastType,
                 ]);
         }
 

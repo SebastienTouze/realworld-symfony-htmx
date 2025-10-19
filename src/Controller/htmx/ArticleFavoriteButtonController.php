@@ -53,7 +53,7 @@ class ArticleFavoriteButtonController extends AbstractController
                 'format' => $renderWithSize,
                 'isFavorited' => true,
                 'toastMessage' => 'Article favorited successfully!',
-                'toastType' => 'success'
+                'toastType' => 'success',
             ]);
         } catch (\Exception $e) {
             return $this->render('components/favorite-button.html.twig', [
@@ -61,7 +61,7 @@ class ArticleFavoriteButtonController extends AbstractController
                 'format' => $renderWithSize,
                 'isFavorited' => false,
                 'toastMessage' => 'Failed to favorite article',
-                'toastType' => 'error'
+                'toastType' => 'error',
             ]);
         }
     }
@@ -80,12 +80,12 @@ class ArticleFavoriteButtonController extends AbstractController
         $user = $this->getUser();
         $isFavorited = false;
 
-        if ($user !== null) {
+        if (null !== $user) {
             $favorite = $this->favoriteRepository->findOneBy([
                 'article' => $article,
-                'reader' => $user
+                'reader' => $user,
             ]);
-            $isFavorited = $favorite !== null;
+            $isFavorited = null !== $favorite;
         }
 
         // Render button with complete context
@@ -115,7 +115,7 @@ class ArticleFavoriteButtonController extends AbstractController
                     'format' => $format,
                     'isFavorited' => false,
                     'toastMessage' => 'Article removed from favorites',
-                    'toastType' => 'success'
+                    'toastType' => 'success',
                 ]);
             }
 
@@ -124,7 +124,7 @@ class ArticleFavoriteButtonController extends AbstractController
                 'format' => $format,
                 'isFavorited' => false,
                 'toastMessage' => 'Article was not in favorites',
-                'toastType' => 'error'
+                'toastType' => 'error',
             ]);
         } catch (\Exception $e) {
             return $this->render('components/favorite-button.html.twig', [
@@ -132,19 +132,20 @@ class ArticleFavoriteButtonController extends AbstractController
                 'format' => $format,
                 'isFavorited' => true,
                 'toastMessage' => 'Failed to remove from favorites',
-                'toastType' => 'error'
+                'toastType' => 'error',
             ]);
         }
     }
 
     /**
-     * Gets the format param from request and validate it, set to Default if not present or invalid
+     * Gets the format param from request and validate it, set to Default if not present or invalid.
      */
-private function getFormatFromRequest(string $format): string
+    private function getFormatFromRequest(string $format): string
     {
         if (!in_array($format, self::ButtonSize, true)) {
             $format = self::ButtonSize['Default'];
         }
+
         return $format;
     }
 }

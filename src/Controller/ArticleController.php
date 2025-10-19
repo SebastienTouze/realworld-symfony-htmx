@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Form\ArticleType;
-use App\Repository\ArticleRepository;
 use App\Service\ArticleService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,15 +13,9 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ArticleController extends AbstractController
 {
-    public function __construct(private readonly ArticleRepository $articleRepository)
+    #[Route('/article/{id:article}-{slug}', name: 'app_article', requirements: ['id' => '\d+', 'slug' => '[a-z0-9-_]+'])]
+    public function index(Article $article): Response
     {
-    }
-
-    #[Route('/article/{id}-{slug}', name: 'app_article', requirements: ['id' => '\d+', 'slug' => '[a-z0-9-_]+'])]
-    public function index(string $slug): Response
-    {
-        $article = $this->articleRepository->findOneBy(['slug' => $slug]);
-
         return $this->render('article/index.html.twig', [
             'article' => $article,
         ]);

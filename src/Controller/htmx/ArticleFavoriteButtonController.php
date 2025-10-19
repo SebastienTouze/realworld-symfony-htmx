@@ -33,12 +33,12 @@ class ArticleFavoriteButtonController extends AbstractController
     {
     }
 
-    #[Route('/{id}/favorite', methods: ['POST'])]
-    public function addFavoriteArticle(int $id, Request $request): Response
+    #[Route('/{id}/favorite/{format}', requirements: ['format' => '\w+'], methods: ['POST'])]
+    public function addFavoriteArticle(int $id, string $format): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        $renderWithSize = $request->query->get('format') ?? self::ButtonSize['Default'];
+        $renderWithSize = $this->getFormatFromRequest($format);
 
         $article = $this->articleRepository->find($id);
         if (!$article) {
@@ -66,13 +66,11 @@ class ArticleFavoriteButtonController extends AbstractController
         }
     }
 
-    #[Route('/{id}/favorite', methods: ['GET'])]
-    public function getFavoriteButton(int $id, Request $request): Response
+    #[Route('/{id}/favorite/{format}', requirements: ['format' => '\w+'], methods: ['GET'])]
+    public function getFavoriteButton(int $id, string $format, Request $request): Response
     {
-        // Extract and validate format parameter
-        $format = $this->getFormatFromRequest($request);
+        $format = $this->getFormatFromRequest($format);
 
-        // Find article with error handling
         $article = $this->articleRepository->find($id);
         if (!$article) {
             throw $this->createNotFoundException('Article not found');
@@ -98,10 +96,12 @@ class ArticleFavoriteButtonController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}/favorite', methods: ['DELETE'])]
-    public function removeFavoriteArticle(string $slug): Response
+    #[Route('/{slug}/favorite/{format}', requirements: ['format' => '\w+'], methods: ['DELETE'])]
+    public function removeFavoriteArticle(string $slug, string $format): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $format = $this->getFormatFromRequest($format);
 
         $article = $this->articleRepository->findOneBy(['slug' => $slug]);
         if (!$article) {
@@ -112,7 +112,7 @@ class ArticleFavoriteButtonController extends AbstractController
             if ($this->favoriteService->removeArticleFromUserFavorites($article, $this->getUser())) {
                 return $this->render('components/favorite-button.html.twig', [
                     'article' => $article,
-                    'format' => 'large',
+                    'format' => $format,
                     'isFavorited' => false,
                     'toastMessage' => 'Article removed from favorites',
                     'toastType' => 'success'
@@ -121,7 +121,7 @@ class ArticleFavoriteButtonController extends AbstractController
 
             return $this->render('components/favorite-button.html.twig', [
                 'article' => $article,
-                'format' => 'large',
+                'format' => $format,
                 'isFavorited' => false,
                 'toastMessage' => 'Article was not in favorites',
                 'toastType' => 'error'
@@ -129,7 +129,7 @@ class ArticleFavoriteButtonController extends AbstractController
         } catch (\Exception $e) {
             return $this->render('components/favorite-button.html.twig', [
                 'article' => $article,
-                'format' => 'large',
+                'format' => $format,
                 'isFavorited' => true,
                 'toastMessage' => 'Failed to remove from favorites',
                 'toastType' => 'error'
@@ -138,11 +138,10 @@ class ArticleFavoriteButtonController extends AbstractController
     }
 
     /**
-     * Gets the format param from request and validate the validity, set to Default if not present or invalid
+     * Gets the format param from request and validate it, set to Default if not present or invalid
      */
-    private function getFormatFromRequest(Request $request): string
+private function getFormatFromRequest(string $format): string
     {
-        $format = $request->query->get('format', self::ButtonSize['Default']);
         if (!in_array($format, self::ButtonSize, true)) {
             $format = self::ButtonSize['Default'];
         }

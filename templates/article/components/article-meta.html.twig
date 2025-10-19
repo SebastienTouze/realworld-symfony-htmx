@@ -3,8 +3,9 @@
     <div class="info">
         <a href="{{ path('app_profile', {'username': article.author.username }) }}"
            class="author">{{ article.author.username }}</a>
-        <span
-            class="date">{{ article.createdAt | date("F j Y") }} {% if article.updatedAt is not null %}, updated: {{ article.updatedAt | date("F j Y") }}{% endif %}</span> {#  TODO #}
+        <span class="date">
+            {{ article.createdAt | date("F j Y") }} {% if article.updatedAt is not null %}, updated: {{ article.updatedAt | date("F j Y") }}{% endif %}
+        </span>
     </div>
     {% if app.user and article.author.username != app.user.username %}
         {{ render(controller('App\\Controller\\htmx\\FollowButtonController::getFollowButton', {'username': article.author.username})) }}&nbsp;

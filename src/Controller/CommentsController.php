@@ -13,6 +13,14 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class CommentsController extends AbstractController
 {
+    #[Route('/article/{id:article}/comments', name: 'app_comments_show', methods: ['GET'])]
+    public function showAll(Article $article): Response
+    {
+        return $this->render('article/components/comments.html.twig', [
+            'article' => $article,
+        ]);
+    }
+
     #[Route('/article/{id:article}/comments', name: 'app_comments_new', methods: ['POST'])]
     public function newComment(Article $article, ArticleService $articleService, Request $request): Response
     {

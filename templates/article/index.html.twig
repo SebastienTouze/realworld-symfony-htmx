@@ -29,7 +29,7 @@
                 {% include 'article/components/article-meta.html.twig' %}
             </div>
 
-            {{ render(controller('App\\Controller\\CommentsController::newComment', {article: article})) }}
+            {{ render(controller('App\\Controller\\CommentsController::showAll', {article: article})) }}
 
         </div>
     </div>

@@ -25,3 +25,8 @@ phpstan.neon
 /phpunit.xml
 /.phpunit.cache/
 ###< phpunit/phpunit ###
+
+###> symfony/panther ###
+/tests/_screenshots/*
+!/tests/_screenshots/.gitkeep
+###< symfony/panther ###

@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\User;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
@@ -23,7 +22,7 @@ class ArticleService
 
     public function createOrUpdateArticle(Article $article): void
     {
-        $this->generateSlug($article);
+        $article->setSlug($this->generateSlug($article));
         $user = $this->getConnectedUser();
         $article->setAuthor($user);
 
@@ -36,15 +35,17 @@ class ArticleService
         $user = $this->getConnectedUser();
         $comment->setAuthor($user)
             ->setArticle($article)
-            ->setCreatedAt(new DateTimeImmutable());
+            ->setCreatedAt(new \DateTimeImmutable());
         $this->entityManager->persist($comment);
         $this->entityManager->flush();
     }
 
     /**
+     * @return non-empty-string
+     *
      * @throws UnprocessableEntityHttpException
      */
-    private function generateSlug(Article $article): void
+    private function generateSlug(Article $article): string
     {
         $title = $article->getTitle();
 
@@ -76,7 +77,11 @@ class ArticleService
             $slug = rtrim($slug, '-');
         }
 
-        $article->setSlug($slug);
+        if ('' === $slug) {
+            throw new UnprocessableEntityHttpException('Article title can\'t be empty');
+        }
+
+        return $slug;
     }
 
     private function getConnectedUser(): User
@@ -86,6 +91,7 @@ class ArticleService
         if (null === $user) {
             throw new AccessDeniedException('User needs to be logged in to add a comment');
         }
+
         return $user;
     }
 }

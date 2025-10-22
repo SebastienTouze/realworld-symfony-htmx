@@ -37,8 +37,8 @@ final class SettingsController extends AbstractController
             }
         }
 
-        $isHTMXRequest = $request->headers->get('HX-Request', false);
-        if ($isHTMXRequest) {
+        $isHTMXRequest = $request->headers->get('HX-Request');
+        if (null !== $isHTMXRequest) {
             return $this->render('settings/components/settings-form-partial.html.twig',
                 [
                     'form' => $form,

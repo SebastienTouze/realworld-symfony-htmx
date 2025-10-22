@@ -22,8 +22,10 @@ class ProfileController extends AbstractController
     #[Route('/profile/{username:user}', name: 'app_profile')]
     public function index(User $user, Request $request): Response
     {
-        $page = (int) $request->query->get('page', 1);
-        $page <= 1 && $page = 1;
+        $page = (int) $request->query->get('page', '1');
+        if ($page <= 1) {
+            $page = 1;
+        }
 
         $paginatedArticles = $this->articleRepository->findByUserPaginated($user, $page, $this->elementPerPage);
 
@@ -39,8 +41,10 @@ class ProfileController extends AbstractController
     #[Route('/profile/{username:user}/favorited', name: 'app_profile_favoritedarticles')]
     public function favoritedArticles(User $user, Request $request): Response
     {
-        $page = (int) $request->query->get('page', 1);
-        $page <= 1 && $page = 1;
+        $page = (int) $request->query->get('page', '1');
+        if ($page <= 1) {
+            $page = 1;
+        }
 
         $paginatedArticles = $this->articleRepository->findByUserFavoritedPaginated($user, $page, $this->elementPerPage);
 

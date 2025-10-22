@@ -8,6 +8,7 @@
 
 namespace App\Controller\htmx;
 
+use App\Entity\User;
 use App\Repository\ArticleRepository;
 use App\Repository\FavoriteRepository;
 use App\Service\FavoriteService;
@@ -41,12 +42,15 @@ class ArticleFavoriteButtonController extends AbstractController
         $renderWithSize = $this->getFormatFromRequest($format);
 
         $article = $this->articleRepository->find($id);
-        if (!$article) {
+        if (null === $article) {
             throw $this->createNotFoundException('Article not found');
         }
 
         try {
-            $this->favoriteService->addArticleToUserFavorites($article, $this->getUser());
+            // not null because of denyAccessUnlessGranted above
+            /** @var User $user */
+            $user = $this->getUser();
+            $this->favoriteService->addArticleToUserFavorites($article, $user);
 
             return $this->render('components/favorite-button.html.twig', [
                 'article' => $article,
@@ -72,7 +76,7 @@ class ArticleFavoriteButtonController extends AbstractController
         $format = $this->getFormatFromRequest($format);
 
         $article = $this->articleRepository->find($id);
-        if (!$article) {
+        if (null === $article) {
             throw $this->createNotFoundException('Article not found');
         }
 
@@ -104,12 +108,15 @@ class ArticleFavoriteButtonController extends AbstractController
         $format = $this->getFormatFromRequest($format);
 
         $article = $this->articleRepository->findOneBy(['slug' => $slug]);
-        if (!$article) {
+        if (null === $article) {
             throw $this->createNotFoundException('Article not found');
         }
 
         try {
-            if ($this->favoriteService->removeArticleFromUserFavorites($article, $this->getUser())) {
+            // not null because of denyAccessUnlessGranted above
+            /** @var User $user */
+            $user = $this->getUser();
+            if ($this->favoriteService->removeArticleFromUserFavorites($article, $user)) {
                 return $this->render('components/favorite-button.html.twig', [
                     'article' => $article,
                     'format' => $format,

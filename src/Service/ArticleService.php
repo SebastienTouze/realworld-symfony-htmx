@@ -4,9 +4,12 @@ namespace App\Service;
 
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Entity\User;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class ArticleService
@@ -21,7 +24,8 @@ class ArticleService
     public function createOrUpdateArticle(Article $article): void
     {
         $this->generateSlug($article);
-        $article->setAuthor($this->security->getUser());
+        $user = $this->getConnectedUser();
+        $article->setAuthor($user);
 
         $this->entityManager->persist($article);
         $this->entityManager->flush();
@@ -29,10 +33,10 @@ class ArticleService
 
     public function addComment(Comment $comment, Article $article): void
     {
-        $user = $this->security->getUser();
+        $user = $this->getConnectedUser();
         $comment->setAuthor($user)
             ->setArticle($article)
-            ->setCreatedAt(new \DateTimeImmutable());
+            ->setCreatedAt(new DateTimeImmutable());
         $this->entityManager->persist($comment);
         $this->entityManager->flush();
     }
@@ -52,10 +56,16 @@ class ArticleService
         $slug = mb_strtolower($title);
 
         // Replace characters with diacritical marks
-        $slug = iconv('UTF-8', 'ASCII//TRANSLIT', $slug);
+        $convertedSlug = iconv('UTF-8', 'ASCII//TRANSLIT', $slug);
+        if (false === $convertedSlug) {
+            throw new UnprocessableEntityHttpException('Failed to convert slug encoding');
+        }
 
         // Replace non-alphanumeric characters with dashes
-        $slug = preg_replace('/[^a-z0-9]+/', '-', $slug);
+        $slug = preg_replace('/[^a-z0-9]+/', '-', $convertedSlug);
+        if (null === $slug) {
+            throw new UnprocessableEntityHttpException('Failed to generate slug');
+        }
 
         // Remove leading/trailing dashes
         $slug = trim($slug, '-');
@@ -67,5 +77,15 @@ class ArticleService
         }
 
         $article->setSlug($slug);
+    }
+
+    private function getConnectedUser(): User
+    {
+        /** @var User|null $user */
+        $user = $this->security->getUser();
+        if (null === $user) {
+            throw new AccessDeniedException('User needs to be logged in to add a comment');
+        }
+        return $user;
     }
 }

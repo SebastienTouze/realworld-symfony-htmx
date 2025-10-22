@@ -22,8 +22,10 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(Request $request): Response
     {
-        $page = (int) $request->query->get('page', 1);
-        $page <= 1 && $page = 1;
+        $page = (int) $request->query->get('page', '1');
+        if ($page <= 1) {
+            $page = 1;
+        }
 
         $paginatedArticles = $this->articleRepository->findAllPaginated($page, $this->elementPerPage);
 
@@ -38,8 +40,10 @@ class HomeController extends AbstractController
     #[Route('/tag-feed/{label:tag}', name: 'app_home_tag_feed')]
     public function tagFeed(Tag $tag, Request $request): Response
     {
-        $page = (int) $request->query->get('page', 1);
-        $page <= 1 && $page = 1;
+        $page = (int) $request->query->get('page', '1');
+        if ($page <= 1) {
+            $page = 1;
+        }
 
         $paginatedArticles = $this->articleRepository->findByTagPaginated($tag, $page, $this->elementPerPage);
 
@@ -54,10 +58,14 @@ class HomeController extends AbstractController
     #[Route('/your-feed', name: 'app_home_your_feed')]
     public function yourFeed(Request $request): Response
     {
-        $page = (int) $request->query->get('page', 1);
-        $page <= 1 && $page = 1;
+        $page = (int) $request->query->get('page', '1');
+        if ($page <= 1) {
+            $page = 1;
+        }
 
-        $paginatedArticles = $this->articleRepository->findByFavoritedAuthorPaginated($this->getUser(), $page, $this->elementPerPage);
+        /** @var \App\Entity\User|null $user */
+        $user = $this->getUser();
+        $paginatedArticles = $this->articleRepository->findByFavoritedAuthorPaginated($user, $page, $this->elementPerPage);
 
         return $this->render('home/index.html.twig', [
             'activeFeed' => 'your',

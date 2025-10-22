@@ -25,11 +25,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     #[Assert\Email(message: 'This email is not valid')]
     #[Assert\NotBlank(message: 'The email is required')]
-    private ?string $email = null;
+    private string $email;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'The username is required')]
-    private ?string $username = null;
+    private string $username;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $bio = null;
@@ -38,9 +38,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Url(protocols: ['HTTPS', 'HTTP'])]
     private ?string $image = null;
 
-    #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'author')]
+    /**
+     * @var Collection<int, Article>
+     */
+    #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'author', orphanRemoval: true)]
     private Collection $articles;
 
+    /**
+     * @var array<string>
+     */
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
@@ -50,8 +56,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $plainPassword = null;
 
     #[ORM\Column(type: 'boolean')]
-    private $isVerified = false;
+    private bool $isVerified = false;
 
+    /**
+     * @var Collection<int, Favorite>
+     */
     #[ORM\OneToMany(targetEntity: Favorite::class, mappedBy: 'reader', orphanRemoval: true)]
     private Collection $favorites;
 
@@ -80,7 +89,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -92,13 +101,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getUsername(): ?string
+    public function getUsername(): string
     {
         return $this->username;
     }
 
-    public function setUsername(?string $username): static
+    public function setUsername(string $username): static
     {
+        if ('' === $username) {
+            throw new \InvalidArgumentException('The username cannot be empty');
+        }
         $this->username = $username;
 
         return $this;
@@ -148,12 +160,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeArticle(Article $article): static
     {
-        if ($this->articles->removeElement($article)) {
-            // set the owning side to null (unless already changed)
-            if ($article->getAuthor() === $this) {
-                $article->setAuthor(null);
-            }
-        }
+        $this->articles->removeElement($article);
 
         return $this;
     }
@@ -168,6 +175,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param array<string> $roles
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -184,6 +194,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[\Override]
     public function getUserIdentifier(): string
     {
+        if ('' === $this->username) {
+            throw new \LogicException('The username cannot be empty');
+        }
+
         return $this->username;
     }
 

@@ -14,11 +14,11 @@ class Favorite
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'favorites')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Article $article = null;
 
     #[ORM\ManyToOne(inversedBy: 'favorites')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $reader = null;
 
     public function __construct(User $reader, Article $article)

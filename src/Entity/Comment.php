@@ -15,21 +15,21 @@ class Comment
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $UpdatedAt = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $body = null;
+    private string $body;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $author = null;
+    private User $author;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Article $Article = null;
+    private Article $article;
 
     public function getId(): ?int
     {
@@ -72,26 +72,26 @@ class Comment
         return $this;
     }
 
-    public function getAuthor(): ?User
+    public function getAuthor(): User
     {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): static
+    public function setAuthor(User $author): static
     {
         $this->author = $author;
 
         return $this;
     }
 
-    public function getArticle(): ?Article
+    public function getArticle(): Article
     {
-        return $this->Article;
+        return $this->article;
     }
 
-    public function setArticle(?Article $Article): static
+    public function setArticle(Article $article): static
     {
-        $this->Article = $Article;
+        $this->article = $article;
 
         return $this;
     }

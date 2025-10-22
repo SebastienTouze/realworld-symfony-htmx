@@ -20,8 +20,8 @@ class HTMXRedirectResponseSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $isHTMXRequest = $event->getRequest()->headers->get('HX-Request', false);
-        if ($isHTMXRequest) {
+        $isHTMXRequest = $event->getRequest()->headers->get('HX-Request');
+        if (null !== $isHTMXRequest) {
             $redirectLocation = $response->headers->get('location');
             $event->setResponse(new Response(null, Response::HTTP_NO_CONTENT, ['HX-Redirect' => $redirectLocation]));
         }

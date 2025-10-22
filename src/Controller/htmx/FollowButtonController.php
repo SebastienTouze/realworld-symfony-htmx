@@ -25,11 +25,12 @@ class FollowButtonController extends AbstractController
     {
         // Find author with error handling
         $author = $this->userRepository->findOneBy(['username' => $username]);
-        if (!$author) {
+        if (null === $author) {
             throw $this->createNotFoundException('Author not found');
         }
 
         // Determine user authentication and follow status
+        /** @var User|null $user */
         $user = $this->getUser();
         $isFollowing = false;
 
@@ -51,10 +52,12 @@ class FollowButtonController extends AbstractController
 
         // Find author with error handling
         $author = $this->userRepository->findOneBy(['username' => $username]);
-        if (!$author) {
+        if (null === $author) {
             throw $this->createNotFoundException('Author not found');
         }
 
+        // Not null because of denyAccessUnlessGranted above
+        /** @var User $currentUser */
         $currentUser = $this->getUser();
 
         try {

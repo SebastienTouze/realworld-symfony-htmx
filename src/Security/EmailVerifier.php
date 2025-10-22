@@ -2,9 +2,11 @@
 
 namespace App\Security;
 
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
@@ -19,12 +21,24 @@ class EmailVerifier
     ) {
     }
 
+    /**
+     * @param User $user
+     *
+     * @throws TransportExceptionInterface
+     */
     public function sendEmailConfirmation(string $verifyEmailRouteName, UserInterface $user, TemplatedEmail $email): void
     {
+        $userId = $user->getId();
+        $userEmail = $user->getEmail();
+
+        if (null === $userId) {
+            throw new \InvalidArgumentException('User ID and email are required');
+        }
+
         $signatureComponents = $this->verifyEmailHelper->generateSignature(
             $verifyEmailRouteName,
-            $user->getId(),
-            $user->getEmail()
+            (string) $userId,
+            $userEmail
         );
 
         $context = $email->getContext();
@@ -38,11 +52,21 @@ class EmailVerifier
     }
 
     /**
+     * @param User $user
+     *
      * @throws VerifyEmailExceptionInterface
      */
     public function handleEmailConfirmation(Request $request, UserInterface $user): void
     {
-        $this->verifyEmailHelper->validateEmailConfirmation($request->getUri(), $user->getId(), $user->getEmail());
+        /** @var User $user */
+        $userId = $user->getId();
+        $userEmail = $user->getEmail();
+
+        if (null === $userId) {
+            throw new \InvalidArgumentException('User ID and email are required');
+        }
+
+        $this->verifyEmailHelper->validateEmailConfirmation($request->getUri(), (string) $userId, $userEmail);
 
         $user->setIsVerified(true);
 

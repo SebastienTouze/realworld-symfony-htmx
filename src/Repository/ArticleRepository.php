@@ -13,9 +13,9 @@ use Doctrine\Persistence\ManagerRegistry;
  * @extends ServiceEntityRepository<Article>
  *
  * @method Article|null find($id, $lockMode = null, $lockVersion = null)
- * @method Article|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Article|null findOneBy(array<string, mixed> $criteria, array<string, string>|null $orderBy = null)
  * @method Article[]    findAll()
- * @method Article[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Article[]    findBy(array<string, mixed> $criteria, array<string, string>|null $orderBy = null, $limit = null, $offset = null)
  */
 class ArticleRepository extends ServiceEntityRepository
 {
@@ -24,6 +24,9 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
+    /**
+     * @return Paginator<Article>
+     */
     public function findAllPaginated(int $currentPage, int $elementLimit): Paginator
     {
         $query = $this->createQueryBuilder('a')
@@ -34,6 +37,9 @@ class ArticleRepository extends ServiceEntityRepository
         return new Paginator($query, true);
     }
 
+    /**
+     * @return Paginator<Article>
+     */
     public function findByTagPaginated(Tag $tag, int $currentPage, int $elementLimit): Paginator
     {
         $query = $this->createQueryBuilder('a')
@@ -48,6 +54,9 @@ class ArticleRepository extends ServiceEntityRepository
         return new Paginator($query, true);
     }
 
+    /**
+     * @return Paginator<Article>
+     */
     public function findByUserPaginated(User $user, int $currentPage, int $elementLimit): Paginator
     {
         $query = $this->createQueryBuilder('a')
@@ -62,6 +71,9 @@ class ArticleRepository extends ServiceEntityRepository
         return new Paginator($query, true);
     }
 
+    /**
+     * @return Paginator<Article>
+     */
     public function findByUserFavoritedPaginated(?User $user, int $currentPage, int $elementLimit): Paginator
     {
         $query = $this->createQueryBuilder('a')
@@ -77,6 +89,9 @@ class ArticleRepository extends ServiceEntityRepository
         return new Paginator($query, true);
     }
 
+    /**
+     * @return Paginator<Article>
+     */
     public function findByFavoritedAuthorPaginated(?User $user, int $currentPage, int $elementLimit): Paginator
     {
         $query = $this->createQueryBuilder('a')

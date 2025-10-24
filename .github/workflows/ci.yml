@@ -45,25 +45,17 @@ jobs:
         name: Check HTTPS reachability
         run: curl -v --insecure --fail-with-body https://localhost
       -
-        name: Check Mercure reachability
-        if: false
-        run: curl -vI --insecure --fail-with-body https://localhost/.well-known/mercure?topic=test
-      -
         name: Create test database
-        run: docker compose exec -T php bin/console -e test doctrine:database:create
-      -
-        name: Run migrations
-        run: docker compose exec -T php bin/console -e test doctrine:migrations:migrate --no-interaction
-      -
-        name: Run PHPUnit
-        if: false # Remove this line if PHPUnit is installed
-        run: docker compose exec -T php bin/phpunit
+        run: docker compose exec -T php bin/console -e test doctrine:schema:update --force
       -
         name: Doctrine Schema Validator
-        run: docker compose exec -T php bin/console -e test doctrine:schema:validate
+        run: docker compose exec -T php bin/console -e test doctrine:schema:validate --skip-sync
+      -
+        name: Run PHPUnit
+        run: make test
       -
         name: PHP CS Fixer
-        run: vendor/bin/php-cs-fixer check
+        run: make cscheck
         
   lint:
     name: Docker Lint

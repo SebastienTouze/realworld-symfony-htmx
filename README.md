@@ -11,14 +11,13 @@ See the [RealWorld documentation for more details](https://realworld-docs.netlif
 This repository is based on the [Symfony Docker template](https://github.com/dunglas/symfony-docker), 
 dedicated doc is available in [docs](docs/README_SYMFONY_DOCKER.md).
 
-Or you can simply clone this repository, then :
+Simply clone this repository, then :
 
 ```shell
 cd realworld-symfony-htmx
-composer install
-docker compose up
-docker compose exec php bin/console doctrine:migration:migrate
-docker compose exec php bin/console doctrine:fixtures:load
+make start
+make db-migrate
+make fixtures-load
 ```
 
 Then you can navigate to [localhost](https://localhost) on your browser, a user `nemo@email.com` with password `123456` is available to connect with, or you can create a new account. 

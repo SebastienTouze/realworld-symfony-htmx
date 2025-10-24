@@ -57,6 +57,12 @@ sf: ## List all Symfony commands or pass the parameter "c=" to run a given comma
 cc: c=ca:cl ## Clear the cache
 cc: sf
 
+db-migrate: ## Update the DB to the last chema
+	@$(SYMFONY) doctrine:migrations:migrate --no-interaction
+
+fixtures-load: ## Load Doctrine fixtures, pass the parameter "c=" to add options to the command, example: make doctrine-fixtures
+	@$(SYMFONY) doctrine:fixtures:load
+
 ## —— Code quality 💯 ———————————————————————————————————————————————————————————————
 test-unit: ## Start all tests with phpunit
 	@$(DOCKER_COMP) exec -e APP_ENV=test php bin/phpunit --testsuite Unit
